@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <title>Afra's Tabs - Guitar Tablatures</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            primary: '#0E0E0E',
+                            secondary: '#1A1A1A',
+                            tertiary: '#222222',
+                            light: '#4a90e2',
+                            card: 'rgba(255, 255, 255, 0.04)',
+                            cardHover: 'rgba(255, 255, 255, 0.08)',
+                            border: 'rgba(255, 255, 255, 0.1)',
+                            text: '#cfcfcf',
+                            accent: '#357abd'
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-dark': 'linear-gradient(135deg, #141414, #141414, #141414)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/css">
+        
+        .album-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .album-card:hover::before {
+            opacity: 1;
+        }
+
+        .album-artwork::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
+            transition: all 0.3s ease;
+        }
+
+        .album-card:hover .album-artwork::after {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(0, 0, 0, 0.2));
+        }
+        
+        .artwork-1349 {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5z=');
+        }
+
+        .artwork-darkspace {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDA0L3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkMiIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA2MWM0NyIvPjxzdG9wIG9mZnNldD0iNTAlIiBustG9wLWNvbG9yOiMwZjIwMzciLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMxMTE4MjciLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0idXJsKCNncmFkMikiLz48ZWxsaXBzZSBjeD0iOTAiIGN5PSIxMDAiIHJ4PSI0MCIgcnk9IjYwIiBmaWxsPSIjMWYyOTM3IiBvcGFjaXR5PSIwLjgiLz48ZWxsaXBzZSBjeD0iMTUwIiBjeT0iMTUwIiByeD0iMzAiIHJ5PSI0MCIgZmlsbD0i');
+        }
+
+        .artwork-darkthrone {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnS+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkMyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzM3NDE1MSIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMWYyOTM3Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMTExODI3Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZ3JhZDMpIi8+PHBvbHlnb24gcG9pbnRzPSIxNTAsMzAgMjIwLDEyMCAxODAsMjAwIDEyMCwyMDAgODAsMTIwIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjEiLz48Y2lyY2xlIGN4PSIxNTAiIGN5PSIxNTAiIHI9IjgwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC4zIi8+PHRleHQgeD0iMTUwIiB5PSIxMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9y=');
+        }
+         @layer utilities {
+            .text-4xl {
+                     font-family: "IM Fell English", serif;
+                     font-weight: 400;
+                     font-style: normal;
+            
+            }
+            .body {
+                font-family: "Libre Caslon Text", serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+            .text-xl {
+                font-family: "Libre Caslon Text", serif;
+                font-weight: 400;
+                font-style: normal;
+                font-size: 15px;
+            }
+            
+            .leading-tight {
+                font-family: "im fell english", serif;
+                font-weight: 400;
+                font-style: normal;
+                font-size: 17px;
+            }
+            
+        } 
+    </style>
+</head>
+<body class="bg-gradient-dark text-white font-sans min-h-screen flex flex-col">
+    <header class="py-5 border-b border-white/10">
+        <div class="container mx-auto px-5">
+            <nav class="flex justify-between items-center flex-wrap gap-5">
+                <a href="index.html" class="text-4xl font-semibold text-white no-underline">Afra's Tabs</a>
+                <ul class="flex list-none gap-10">
+                    <li><a href="tabs.html" class="text-gray-300 no-underline hover:text-primary transition-colors">Tabs</a></li>
+                    <li><a href="request.html" class="text-gray-300 no-underline hover:text-primary transition-colors">Make a request</a></li>
+                    <li><a href="about.html" class="text-gray-300 no-underline hover:text-primary transition-colors">About</a></li>
+                </ul>
+                <input type="text" class="bg-white/10 border border-white/20 rounded-full py-2.5 px-5 text-white min-w-[250px] outline-none placeholder:text-white/60" placeholder="Search for songs, albums, artists">
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-5 flex-1 py-10">
+        <div class="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-10">
+            <aside class="flex flex-col gap-8">
+                <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
+                    <h3 class="text-xl font-semibold text-white mb-5">Show Categories</h3>
+                    <div class="flex flex-col gap-3">
+                        <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg cursor-pointer transition-all hover:bg-primary/20 hover:border-primary" href="./tabs.html">
+                            <span class="text-white font-medium">Songs</span>
+                            <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">34</span>
+                        </a>
+                        <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg cursor-pointer transition-all hover:bg-primary/20 hover:border-primary" href="./tabalbums.html">
+                            <span class="text-white font-medium">Albums</span>
+                            <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">16</span>
+                        </a>
+                        <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg cursor-pointer transition-all hover:bg-primary/20 hover:border-primary" href="./tabsartists.html">
+                            <span class="text-white font-medium">Artist</span>
+                            <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">54</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
+                    <h3 class="text-xl font-semibold text-white mb-5">Filters</h3>
+                    
+                    <div class="mb-6 last:mb-0">
+                        <label class="block text-white font-medium mb-2.5">Name (A - Z)</label>
+                        <select class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
+                            <option>A to Z</option>
+                            <option>Z to A</option>
+                            <option>Recently Added</option>
+                            <option>Most Popular</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-6 last:mb-0">
+                        <label class="block text-white font-medium mb-2.5">Tuning</label>
+                        <select class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
+                            <option>All Tunings</option>
+                            <option>E Standard</option>
+                            <option>Drop D</option>
+                            <option>Drop C</option>
+                            <option>Drop B</option>
+                            <option>DADGAD</option>
+                        </select>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                <div class="tab-card h-[400px] bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary">
+                    <div class="tab-image w-full h-48 relative overflow-hidden">
+                        <div class="w-full h-full flex items-center justify-center text-4xl font-bold text-white/90 text-shadow">husban</div>
+                        <div class="play-button absolute top-4 right-4 w-9 h-9 bg-black/70 border border-white/30 rounded-full flex items-center justify-center text-white text-sm transition-all duration-300 hover:bg-primary/90 hover:scale-110">▶</div>
+                    </div>
+                    <div class="tab-info p-5">
+                        <h3 class="tab-title text-xl font-semibold text-white mb-0 mb-1"><a href="./AlbumIndividual.html">1349</a></h3>
+                        <div class="tab-footer flex justify-between items-center mb-2">
+                            <span class="tab-year text-gray-400 text-sm">2025</span>
+                        </div>
+                        <div class="tab-footer flex justify-between items-center">
+                            <span class="tab-year text-gray-400 text-sm mb-3">1 Tab</span>
+                            <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3  no-underline font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)] ">Completed</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-card h-[400px] bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary">
+                    <div class="tab-image w-full h-48 relative overflow-hidden">
+                        <div class="w-full h-full flex items-center justify-center text-4xl font-bold text-white/90 text-shadow">Darkspace</div>
+                        <div class="play-button absolute top-4 right-4 w-9 h-9 bg-black/70 border border-white/30 rounded-full flex items-center justify-center text-white text-sm transition-all duration-300 hover:bg-primary/90 hover:scale-110">▶</div>
+                    </div>
+                    <div class="tab-info p-5">
+                        <h3 class="tab-title text-xl font-semibold text-white mb-0 mb-1"><a href="./AlbumIndividual.html">Darkspace</a></h3>
+                        <div class="tab-footer flex justify-between items-center mb-2">
+                            <span class="tab-year text-gray-400 text-sm">2025</span>
+                        </div>
+                        <div class="tab-footer flex justify-between items-center">
+                            <span class="tab-year text-gray-400 text-sm mb-3">1 Tab</span>
+                            <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3  no-underline font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)] ">Completed</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-card h-[400px] bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary">
+                    <div class="tab-image w-full h-48 relative overflow-hidden">
+                        <div class="w-full h-full flex items-center justify-center text-4xl font-bold text-white/90 text-shadow">Darkthrone</div>
+                        <div class="play-button absolute top-4 right-4 w-9 h-9 bg-black/70 border border-white/30 rounded-full flex items-center justify-center text-white text-sm transition-all duration-300 hover:bg-primary/90 hover:scale-110">▶</div>
+                    </div>
+                    <div class="tab-info p-5">
+                        <h3 class="tab-title text-xl font-semibold text-white mb-0 mb-1"><a href="./AlbumIndividual.html">Darkthrone</a></h3>
+                        <div class="tab-footer flex justify-between items-center mb-2">
+                            <span class="tab-year text-gray-400 text-sm">2025</span>
+                        </div>
+                        <div class="tab-footer flex justify-between items-center">
+                            <span class="tab-year text-gray-400 text-sm mb-3">1 Tab</span>
+                            <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3  no-underline font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)] ">Completed</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-card h-[400px] bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary">
+                    <div class="tab-image w-full h-48 relative overflow-hidden">
+                        <div class="w-full h-full flex items-center justify-center text-4xl font-bold text-white/90 text-shadow">Darkthrone</div>
+                        <div class="play-button absolute top-4 right-4 w-9 h-9 bg-black/70 border border-white/30 rounded-full flex items-center justify-center text-white text-sm transition-all duration-300 hover:bg-primary/90 hover:scale-110">▶</div>
+                    </div>
+                    <div class="tab-info p-5">
+                        <h3 class="tab-title text-xl font-semibold text-white mb-0 mb-1"><a href="./AlbumIndividual.html">Darkthrone</a></h3>
+                        <div class="tab-footer flex justify-between items-center mb-2">
+                            <span class="tab-year text-gray-400 text-sm">2025</span>
+                        </div>
+                        <div class="tab-footer flex justify-between items-center">
+                            <span class="tab-year text-gray-400 text-sm mb-3">1 Tab</span>
+                            <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3  no-underline font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)] ">Completed</span>
+                        </div>
+                    </div>
+                </div>
+                
+            </section>
+        </div>
+
+        <div class="flex justify-center mt-12 ml-0 lg:ml-[22rem]">
+            <button class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-3 px-3  no-underline font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
+                Load More
+            </button>
+        </div>
+    </main>
+
+    <footer class="mt-25 pt-15 pb-10 border-t border-dark-border text-center">
+        <div class="container mx-auto px-5 max-w-6xl">
+            <div class="text-4xl font-semibold mb-5 mt-10">Afra's Tabs</div>
+            <p class="text-dark-text max-w-3xl mx-auto mb-10">
+                All guitar tablatures are created for educational and personal use only.<br>
+                Original songs and compositions are copyrighted by their respective owners.
+            </p>
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-7.5  border-t border-dark-border text-gray-400 text-sm">
+                <div>© 2025 Afra's Tabs. All rights reserved.</div>
+                <a href="#" class="text-dark-text text-xl transition-colors duration-300 hover:text-dark-light mt-5">🎵</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

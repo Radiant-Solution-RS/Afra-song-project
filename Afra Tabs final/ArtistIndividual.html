@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afra's Tabs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0066cc',
+                        dark: {
+                            100: '#1a1a1a',
+                            200: '#2a2a2a',
+                            300: '#0a1628',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/css">
+       
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .album-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-serif">
+    <header class="flex justify-between items-center py-5 px-10 bg-gray-900">
+        <div class="text-2xl font-bold">Afra's Tabs</div>
+        <nav class="flex gap-8">
+            <a href="./tabs.html" class="text-white no-underline">Tabs</a>
+            <a href=".#" class="text-gray-300 no-underline hover:text-white transition-colors">Make a request</a>
+            <a href="./about.html" class="text-gray-300 no-underline hover:text-white transition-colors">About</a>
+        </nav>
+        <input type="search" class="py-2 px-4 bg-gray-800 border border-gray-600 rounded text-white w-64 placeholder:text-gray-500" placeholder="Search for songs, albums, artists">
+    </header>
+
+    <main class="max-w-6xl mx-auto py-10 px-5">
+        <section class="flex items-center gap-10 mb-15 flex-col md:flex-row">
+           
+            <div class="hero-image w-full md:w-[520px] h-80 rounded-xl overflow-hidden relative">
+   
+             <div class="absolute inset-0 rounded-xl bg-[rgba(0,102,204,0.35)] blur-3xl scale-110 pointer-events-none"></div>
+
+             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='320' viewBox='0 0 520 320'%3E%3Cdefs%3E%3CradialGradient id='fire' cx='50%25' cy='80%25' r='60%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6b35'/%3E%3Cstop offset='40%25' style='stop-color:%23ff8c42'/%3E%3Cstop offset='100%25' style='stop-color:%23cc4125'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='520' height='320' fill='%232a1810'/%3E%3Cg transform='translate(260,160)'%3E%3Ccircle cx='-80' cy='40' r='30' fill='url(%23fire)' opacity='0.8'/%3E%3Ccircle cx='80' cy='35' r='35' fill='url(%23fire)' opacity='0.9'/%3E%3Cellipse cx='-40' cy='60' rx='20' ry='45' fill='url(%23fire)' opacity='0.7'/%3E%3Cellipse cx='40' cy='55' rx='25' ry='50' fill='url(%23fire)' opacity='0.8'/%3E%3Ccircle cx='0' cy='-20' r='25' fill='%23444' opacity='0.6'/%3E%3Ccircle cx='-60' cy='-10' r='20' fill='%23333' opacity='0.5'/%3E%3Ccircle cx='60' cy='-15' r='22' fill='%23333' opacity='0.5'/%3E%3C/g%3E%3C/svg%3E" alt="Band performance with fire">
+            </div>
+            </div>
+            <div class="hero-stats flex flex-col gap-2.5 text-center md:text-left">
+                <div class="breadcrumb text-sm text-gray-400 mb-5">🏠 • • •</div>
+                 <h1 class="album-title text-5xl font-bold mb-4">1349</h1>
+                <div class="stats-number text-7xl font-bold leading-none"></div>
+                </div>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 mt-10">
+            
+                <div class="tab-card h-[400px] bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary">
+                    <div class="tab-image w-full h-48 relative overflow-hidden">
+                        <div class="w-full h-full flex items-center justify-center text-4xl font-bold text-white/90 text-shadow">1349</div>
+                        <div class="play-button absolute top-4 right-4 w-9 h-9 bg-black/70 border border-white/30 rounded-full flex items-center justify-center text-white text-sm transition-all duration-300 hover:bg-primary/90 hover:scale-110">▶</div>
+                    </div>
+                    <div class="tab-info p-5">
+                        <h3 class="tab-title text-xl font-semibold text-white mb-0 mb-1"><a href="./songsIndividual.html">Ash of Ages</a></h3>
+                        <p class="tab-artist text-gray-300 mb-3 text-sm">The Wolf & the King</p>
+                        <p class="tab-album text-gray-400 mb-2 text-sm">1349</p>
+                        <div class="tab-footer flex justify-between items-center mb-2">
+                            <span class="tab-year text-gray-400 text-sm">2024</span>
+                        </div>
+                        <div class="tab-footer flex justify-between items-center">
+                            <span class="tab-year text-gray-400 text-sm mb-3">1 Tab</span>
+                            <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3  no-underline font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)] ">Completed</span>
+                        </div>
+                    </div>
+                </div>
+            <div class="album-card bg-gray-800 border border-gray-600 rounded-xl p-5 relative overflow-hidden cursor-pointer transition-all hover:border-gray-500">
+                <div class="album-image w-full h-60 rounded-lg overflow-hidden mb-4 relative">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='250' viewBox='0 0 350 250'%3E%3Crect width='350' height='250' fill='%231a1a1a'/%3E%3Cg transform='translate(175,125)'%3E%3Ccircle cx='0' cy='-30' r='40' fill='%23b8860b' opacity='0.8'/%3E%3Crect x='-15' y='-10' width='30' height='60' fill='%23daa520' rx='5'/%3E%3Ccircle cx='-25' cy='-45' r='8' fill='%23ffd700'/%3E%3Ccircle cx='25' cy='-45' r='8' fill='%23ffd700'/%3E%3Cpath d='M-30,-20 L30,-20 L25,40 L-25,40 Z' fill='%23cd853f'/%3E%3Ctext x='0' y='70' text-anchor='middle' fill='%23ddd' font-size='12' font-family='serif'%3EThe Wolf %26 The King%3C/text%3E%3C/g%3E%3C/svg%3E" alt="Ash Of Ages - The Wolf & The King">
+                </div>
+                <div class="album-title text-xl font-bold mb-1">Ash Of Ages</div>
+                <div class="album-year text-sm text-gray-400 mb-1">2024</div>
+                <div class="album-tabs text-sm text-gray-300">1 tab</div>
+                
+                <div class="tuning-badge bg-primary/20  absolute bottom-5 right-5 text-primary py-1.5 px-3 rounded-full text-sm border border-primary font-medium">Completed</div>
+            </div>
+
+            <div class="album-card bg-gray-800 border border-gray-600 rounded-xl p-5 relative overflow-hidden cursor-pointer transition-all hover:border-gray-500">
+                <div class="album-image w-full h-60 rounded-lg overflow-hidden mb-4 relative">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='250' viewBox='0 0 350 250'%3E%3Crect width='350' height='250' fill='%23f0f0f0'/%3E%3Cg transform='translate(175,125)'%3E%3Cpath d='M0,-60 L-30,-30 L-30,30 L0,60 L30,30 L30,-30 Z' fill='%23333' opacity='0.8'/%3E%3Ccircle cx='0' cy='0' r='15' fill='%23666'/%3E%3Cpath d='M-15,-10 Q0,-25 15,-10' stroke='%23999' stroke-width='2' fill='none'/%3E%3Ctext x='0' y='80' text-anchor='middle' fill='%23333' font-size='10' font-family='serif'%3EASTRAL FORTRESS%3C/text%3E%3C/g%3E%3C/svg%3E" alt="Caravan of Broken Ghosts - Astral Fortress">
+                </div>
+                <div class="album-title text-xl font-bold mb-1">Caravan of Broken Ghosts</div>
+                <div class="album-year text-sm text-gray-400 mb-1">2022</div>
+                <div class="album-tabs text-sm text-gray-300">1 tab</div>
+            </div>
+        </section>
+
+        <footer class="mt-25 pt-15 pb-10 border-t border-dark-border text-center">
+        <div class="container mx-auto px-5 max-w-6xl">
+            <div class="text-4xl font-semibold mb-5 mt-10">Afra's Tabs</div>
+            <p class="text-dark-text max-w-3xl mx-auto mb-10">
+                All guitar tablatures are created for educational and personal use only.<br>
+                Original songs and compositions are copyrighted by their respective owners.
+            </p>
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-7.5  border-t border-dark-border text-gray-400 text-sm">
+                <div>© 2025 Afra's Tabs. All rights reserved.</div>
+                <a href="#" class="text-dark-text text-xl transition-colors duration-300 hover:text-dark-light mt-5">🎵</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.search-box').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                alert(`Searching for: "${this.value}"`);
+            }
+        });
+
+        document.querySelectorAll('.album-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('.album-title').textContent;
+                alert(`Opening ${title} tabs...`);
+            });
+        });
+    </script>
+</body>
+</html>

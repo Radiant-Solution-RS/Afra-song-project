@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+{{ block.super }}
+<style type="text/css">
+    .slider-container {
+        position: relative;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+        margin: 20px 0;
+    }
+
+    .slider-track {
+        height: 100%;
+        background: linear-gradient(90deg, #4a90e2, #357abd);
+        border-radius: 3px;
+        width: 70%;
+    }
+
+    .slider-handles {
+        position: absolute;
+        top: -7px;
+        width: 100%;
+    }
+
+    .slider-handle {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #4a90e2;
+        border: 3px solid #ffffff;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .slider-handle:nth-child(1) { left: 20%; }
+    .slider-handle:nth-child(2) { left: 40%; }
+    .slider-handle:nth-child(3) { left: 60%; }
+    .slider-handle:nth-child(4) { left: 80%; }
+    
+    .album-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .album-card:hover::before {
+        opacity: 1;
+    }
+
+    .album-artwork::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
+        transition: all 0.3s ease;
+    }
+
+    .album-card:hover .album-artwork::after {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(0, 0, 0, 0.2));
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="container mx-auto px-5 flex-1 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-10">
+        <aside class="flex flex-col gap-8">
+            <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
+                <h3 class="text-xl font-semibold text-white mb-5">Show Categories</h3>
+                <div class="flex flex-col gap-3">
+                    <a class="flex justify-between items-center p-3 border border-white/10 rounded-lg cursor-pointer transition-all hover:bg-white/5 hover:border-white/20" href="{% url 'tabs:tabs_list' %}">
+                        <span class="text-white font-medium">Songs</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.songs }}</span>
+                    </a>
+                    <a class="flex justify-between items-center p-3 border border-white/10 rounded-lg cursor-pointer transition-all hover:bg-white/5 hover:border-white/20" href="{% url 'tabs:albums_list' %}">
+                        <span class="text-white font-medium">Albums</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.albums }}</span>
+                    </a>
+                    <a class="flex justify-between items-center p-3 border border-white/10 rounded-lg cursor-pointer transition-all hover:bg-white/5 hover:border-white/20" href="{% url 'tabs:artists_list' %}">
+                        <span class="text-white font-medium">Artist</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.artists }}</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
+                <h3 class="text-xl font-semibold text-white mb-5">Filters</h3>
+                
+                <form method="GET" class="space-y-6">
+                    <div class="mb-6 last:mb-0">
+                        <label class="block text-white font-medium mb-2.5">Name (A - Z)</label>
+                        <select name="sort" class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base" onchange="this.form.submit()">
+                            <option value="A to Z" {% if sort_by == "A to Z" %}selected{% endif %}>A to Z</option>
+                            <option value="Z to A" {% if sort_by == "Z to A" %}selected{% endif %}>Z to A</option>
+                            <option value="Recently Added" {% if sort_by == "Recently Added" %}selected{% endif %}>Recently Added</option>
+                            <option value="Most Popular" {% if sort_by == "Most Popular" %}selected{% endif %}>Most Popular</option>
+                        </select>
+                    </div>
+                    
+                    {% if search_query %}
+                    <input type="hidden" name="search" value="{{ search_query }}">
+                    {% endif %}
+                </form>
+            </div>
+        </aside>
+
+         <section class="tab-section">
+  <div class="tabs-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+
+    
+    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary w- flex flex-col">
+      
+      
+      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
+        <img src="./Image (3).png" alt="1349" class="w-full h-full object-cover">
+        
+      </div>
+
+     
+      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
+        <div>
+          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
+            <a href="./ArtistIndividual.html">1349</a>
+          </h3>
+          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
+            <span>2025</span>
+          </div>
+        </div>
+        <div class="tab-footer flex justify-between items-center">
+          <span class="text-gray-400 text-sm">1 Tab</span>
+          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
+            Completed
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
+      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
+        <img src="./Image (3).png" alt="Darkspace" class="w-full h-full object-cover">
+      </div>
+      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
+        <div>
+          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
+            <a href="./ArtistIndividual.html">Darkspace</a>
+          </h3>
+          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
+            <span>2025</span>
+          </div>
+        </div>
+        <div class="tab-footer flex justify-between items-center">
+          <span class="text-gray-400 text-sm">1 Tab</span>
+          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
+            Completed
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
+      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
+        <img src="./Image (3).png" alt="Darkspace" class="w-full h-full object-cover">
+      </div>
+      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
+        <div>
+          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
+            <a href="./ArtistIndividual.html">Darkspace</a>
+          </h3>
+          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
+            <span>2025</span>
+          </div>
+        </div>
+        <div class="tab-footer flex justify-between items-center">
+          <span class="text-gray-400 text-sm">1 Tab</span>
+          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
+            Completed
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
+      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
+        <img src="./Image (3).png" alt="Darkspace" class="w-full h-full object-cover">
+      </div>
+      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
+        <div>
+          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
+            <a href="./ArtistIndividual.html">Darkspace</a>
+          </h3>
+          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
+            <span>2025</span>
+          </div>
+        </div>
+        <div class="tab-footer flex justify-between items-center">
+          <span class="text-gray-400 text-sm">1 Tab</span>
+          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
+            Completed
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
+      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
+        <img src="./Image (3).png" alt="Darkspace" class="w-full h-full object-cover">
+      </div>
+      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
+        <div>
+          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
+            <a href="./ArtistIndividual.html">Darkspace</a>
+          </h3>
+          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
+            <span>2025</span>
+          </div>
+        </div>
+        <div class="tab-footer flex justify-between items-center">
+          <span class="text-gray-400 text-sm">1 Tab</span>
+          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
+            Completed
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</section>
+    </div>
+    
+    {% if page_obj.has_other_pages %}
+    <div class="flex justify-center mt-10">
+        <nav class="flex space-x-2">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}" 
+                   class="px-3 py-2 bg-dark-card border border-dark-border rounded text-white hover:bg-dark-cardHover">Previous</a>
+            {% endif %}
+            
+            <span class="px-3 py-2 bg-dark-light border border-dark-border rounded text-white">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+            
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}" 
+                   class="px-3 py-2 bg-dark-card border border-dark-border rounded text-white hover:bg-dark-cardHover">Next</a>
+            {% endif %}
+        </nav>
+    </div>
+    {% endif %}
+</main>
+{% endblock %}

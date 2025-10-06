@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+{{ block.super }}
+<style type="text/css">
+    .album-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .album-card:hover::before {
+        opacity: 1;
+    }
+
+    .album-artwork::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
+        transition: all 0.3s ease;
+    }
+
+    .album-card:hover .album-artwork::after {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(0, 0, 0, 0.2));
+    }
+    
+    .artwork-1349 {
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5z=');
+    }
+
+    .artwork-darkspace {
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDA0L3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkMiIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA2MWM0NyIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMGYyMDM3Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMTExODI3Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZ3JhZDIpIi8+PGVsbGlwc2UgY3g9IjkwIiBjeT0iMTAwIiByeD0iNDAiIHJ5PSI2MCIgZmlsbD0iIzFmMjkzNyIgb3BhY2l0eT0iMC44Ii8+PGVsbGlwc2UgY3g9IjE1MCIgY3k9IjE1MCIgcng9IjMwIiByeT0iNDAiIGZpbGw=');
+    }
+
+    .artwork-darkthrone {
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkMyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzM3NDE1MSIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMWYyOTM3Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMTExODI3Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZ3JhZDMpIi8+PHBvbHlnb24gcG9pbnRzPSIxNTAsMzAgMjIwLDEyMCAxODAsMjAwIDEyMCwyMDAgODAsMTIwIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjEiLz48Y2lyY2xlIGN4PSIxNTAiIGN5PSIxNTAiIHI9IjgwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC4zIi8+PHRleHQgeD0iMTUwIiB5PSIxMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkRBUktUSFJPTkU8L3RleHQ+PHRleHQgeD0iMTUwIiB5PSIxODAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2NiZDVlMSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Tm9yd2VnaWFuIEJsYWNrIE1ldGFsPC90ZXh0Pjwvc3ZnPg==');
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="container mx-auto px-5 flex-1 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-10">
+        <aside class="flex flex-col gap-8">
+            <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
+                <h3 class="text-xl font-semibold text-white mb-5">Show Categories</h3>
+                <div class="flex flex-col gap-3">
+                    <a class="flex justify-between items-center p-3 border border-white/10 rounded-lg cursor-pointer transition-all hover:bg-white/5 hover:border-white/20" href="{% url 'tabs:tabs_list' %}">
+                        <span class="text-white font-medium">Songs</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.songs }}</span>
+                    </a>
+                    <a class="flex justify-between items-center p-3 border border-white/10 rounded-lg cursor-pointer transition-all hover:bg-white/5 hover:border-white/20" href="{% url 'tabs:albums_list' %}">
+                        <span class="text-white font-medium">Albums</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.albums }}</span>
+                    </a>
+                    <a class="flex justify-between items-center p-3 border border-white/10 rounded-lg cursor-pointer transition-all hover:bg-white/5 hover:border-white/20" href="{% url 'tabs:artists_list' %}">
+                        <span class="text-white font-medium">Artist</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.artists }}</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
+                <h3 class="text-xl font-semibold text-white mb-5">Filters</h3>
+                
+                <form method="GET" class="space-y-6">
+                    <div class="mb-6 last:mb-0">
+                        <label class="block text-white font-medium mb-2.5">Name (A - Z)</label>
+                        <select name="sort" class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base" onchange="this.form.submit()">
+                            <option value="A to Z" {% if sort_by == "A to Z" %}selected{% endif %}>A to Z</option>
+                            <option value="Z to A" {% if sort_by == "Z to A" %}selected{% endif %}>Z to A</option>
+                            <option value="Recently Added" {% if sort_by == "Recently Added" %}selected{% endif %}>Recently Added</option>
+                            <option value="Most Popular" {% if sort_by == "Most Popular" %}selected{% endif %}>Most Popular</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-6 last:mb-0">
+                        <label class="block text-white font-medium mb-2.5">Tuning</label>
+                        <select name="tuning" class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base" onchange="this.form.submit()">
+                            <option value="All Tunings" {% if not tuning_filter or tuning_filter == "All Tunings" %}selected{% endif %}>All Tunings</option>
+                            <option value="E Standard" {% if tuning_filter == "E Standard" %}selected{% endif %}>E Standard</option>
+                            <option value="Drop D" {% if tuning_filter == "Drop D" %}selected{% endif %}>Drop D</option>
+                            <option value="Drop C" {% if tuning_filter == "Drop C" %}selected{% endif %}>Drop C</option>
+                            <option value="Drop B" {% if tuning_filter == "Drop B" %}selected{% endif %}>Drop B</option>
+                            <option value="DADGAD" {% if tuning_filter == "DADGAD" %}selected{% endif %}>DADGAD</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-6 last:mb-0">
+                        <label class="block text-white font-medium mb-2.5">Difficulty</label>
+                        <div class="difficulty-slider mt-4">
+                            <div class="slider-container">
+                                <div class="slider-track" id="slider-track"></div>
+                                <div class="slider-handles">
+                                    <div class="slider-handle" data-value="1" id="handle-1"></div>
+                                    <div class="slider-handle" data-value="2" id="handle-2"></div>
+                                    <div class="slider-handle" data-value="3" id="handle-3"></div>
+                                    <div class="slider-handle" data-value="4" id="handle-4"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-400 mt-2">
+                                <span>1</span>
+                                <span>2</span>
+                                <span>3</span>
+                                <span>4</span>
+                            </div>
+                            <div class="text-center text-sm text-gray-300 mt-2" id="difficulty-range">
+                                Range: <span id="min-diff">{{ min_difficulty|default:"1" }}</span> - <span id="max-diff">{{ max_difficulty|default:"4" }}</span>
+                            </div>
+                        </div>
+                        <input type="hidden" name="min_difficulty" id="min_difficulty" value="{{ min_difficulty|default:"1" }}">
+                        <input type="hidden" name="max_difficulty" id="max_difficulty" value="{{ max_difficulty|default:"4" }}">
+                    </div>
+                    
+                    {% if search_query %}
+                    <input type="hidden" name="search" value="{{ search_query }}">
+                    {% endif %}
+                </form>
+            </div>
+        </aside>
+
+       <section class="grid grid-cols-1 gap-6">
+    {% for song in page_obj %}
+    <a href="{% url 'tabs:song_detail' song.artist.name_cleaned song.album.title_cleaned song.title_cleaned %}"
+       class="tab-card flex flex-col sm:flex-row h-auto bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary">
+       
+        <!-- Image Section -->
+        <div class="tab-image w-full sm:w-2/5 aspect-[16/9] relative overflow-hidden flex items-center justify-center bg-dark-card">
+            <div class="absolute inset-0 flex items-center justify-center text-3xl font-bold text-white/90">
+                {% if song.artist.name|length > 8 %}
+                    {{ song.artist.name|upper|slice:":8" }}
+                {% else %}
+                    {{ song.artist.name|upper }}
+                {% endif %}
+            </div>
+            {% if song.difficulty %}
+            <div class="difficulty-banner absolute top-2 right-2 bg-primary/80 px-2 py-1 rounded text-xs font-semibold">
+                {{ song.difficulty }}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Info Section -->
+        <div class="tab-info w-full sm:w-3/5 p-5 flex flex-col justify-between">
+            <div>
+                <h3 class="tab-title text-lg font-semibold text-white mb-2 flex items-center gap-2">
+                    {{ song.title }}
+                    {% if song.artist_verified %}
+                    <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                    {% endif %}
+                </h3>
+                <p class="tab-artist text-gray-300 text-sm">{{ song.album.title }}</p>
+                <p class="tab-album text-gray-400 text-sm mb-3">{{ song.artist.name }}</p>
+            </div>
+
+            <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mt-2">
+                <div class="flex flex-col">
+                    <span>{{ song.album.release_year }}</span>
+                    <span>{{ song.tuning|default:"E Standard" }}</span>
+                </div>
+                <div class="text-right">
+                    <span class="block mb-1">1 Tab</span>
+                    <span class="border border-dark-border rounded-md text-white py-1 px-3 font-medium hover:bg-[rgba(74,144,226,0.2)] text-xs">
+                        {% if song.artist_verified %}Verified{% else %}Completed{% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </a>
+    {% empty %}
+    <div class="col-span-4 text-center text-dark-text py-20">
+        <p class="text-2xl mb-4">No tabs found</p>
+        {% if search_query %}
+        <p>Try adjusting your search or filters.</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</section>
+
+    </div>
+    
+    {% if page_obj.has_other_pages %}
+    <div class="flex justify-center mt-10">
+        <nav class="flex space-x-2">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if tuning_filter %}&tuning={{ tuning_filter }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}" 
+                   class="px-3 py-2 bg-dark-card border border-dark-border rounded text-white hover:bg-dark-cardHover">Previous</a>
+            {% endif %}
+            
+            <span class="px-3 py-2 bg-dark-light border border-dark-border rounded text-white">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+            
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if tuning_filter %}&tuning={{ tuning_filter }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}" 
+                   class="px-3 py-2 bg-dark-card border border-dark-border rounded text-white hover:bg-dark-cardHover">Next</a>
+            {% endif %}
+        </nav>
+    </div>
+    {% endif %}
+</main>
+{% endblock %}

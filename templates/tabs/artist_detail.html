@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+.difficulty-banner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tab-card:hover .difficulty-banner {
+    opacity: 1;
+}
+
+.difficulty-banner.diff-1 {
+    border-top: 30px solid #22c55e;
+}
+
+.difficulty-banner.diff-2 {
+    border-top: 30px solid #eab308;
+}
+
+.difficulty-banner.diff-3 {
+    border-top: 30px solid #ef4444;
+}
+
+.difficulty-banner.diff-4 {
+    border-top: 30px solid #000000;
+}
+
+.difficulty-number {
+    position: absolute;
+    top: -25px;
+    right: -10px;
+    color: white;
+    font-weight: bold;
+    font-size: 11px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-5 py-10">
+    <div class="max-w-6xl mx-auto">
+        <!-- Artist Header -->
+        <div class="bg-dark-card border border-dark-border rounded-xl p-8 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-8">
+                <!-- Artist Image -->
+                <div class="aspect-square bg-gradient-card-2 rounded-lg flex items-center justify-center text-6xl font-bold text-white/90">
+                    {{ artist.name|upper|slice:":6" }}
+                </div>
+                
+                <!-- Artist Info -->
+                <div>
+                    <h1 class="text-4xl font-bold mb-4">{{ artist.name }}</h1>
+                    <div class="flex flex-wrap gap-4 mb-6">
+                        <div class="bg-dark-lighter border border-dark-light rounded-md px-4 py-2">
+                            <div class="text-2xl font-bold">{{ artist.num_tabs }}</div>
+                            <div class="text-sm text-dark-text">Tab{{ artist.num_tabs|pluralize }}</div>
+                        </div>
+                        <div class="bg-dark-lighter border border-purple-600 rounded-md px-4 py-2">
+                            <div class="text-2xl font-bold">{{ albums.count }}</div>
+                            <div class="text-sm text-dark-text">Album{{ albums.count|pluralize }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Albums -->
+        {% if albums %}
+        <div class="bg-dark-card border border-dark-border rounded-xl p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-6">Albums</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {% for album in albums %}
+                <div class="bg-dark-secondary border border-dark-border rounded-lg overflow-hidden hover:bg-dark-cardHover transition-colors">
+                    <div class="aspect-square bg-gradient-card-3 flex items-center justify-center text-lg font-bold text-white/90">
+                        {{ album.title|upper|slice:":8" }}
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-1">
+                            <a href="{% url 'tabs:album_detail' artist.name_cleaned album.title_cleaned %}" 
+                               class="text-white hover:text-dark-light">
+                                {{ album.title }}
+                            </a>
+                        </h3>
+                        <p class="text-sm text-dark-text mb-2">{{ album.release_year }}</p>
+                        <p class="text-xs text-gray-400">{{ album.song_count }} tab{{ album.song_count|pluralize }}</p>
+                        {% if album.is_complete %}
+                        <span class="inline-block mt-2 bg-dark-lighter border border-green-600 rounded text-xs px-2 py-1">Complete</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Tabs -->
+        {% if songs %}
+        <div class="bg-dark-card border border-dark-border rounded-xl p-6">
+            <h2 class="text-2xl font-semibold mb-6">Tabs</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {% for song in songs %}
+                <a href="{% url 'tabs:song_detail' song.artist.name_cleaned song.album.title_cleaned song.title_cleaned %}" class="tab-card bg-dark-secondary border border-dark-border rounded-lg overflow-hidden hover:bg-dark-cardHover transition-colors block relative">
+                    <div class="aspect-square bg-dark-lighter-card-1 flex items-center justify-center text-2xl font-bold text-white/90">
+                        {{ song.artist.name|upper|slice:":6" }}
+                    </div>
+                    {% if song.difficulty %}
+                    <div class="difficulty-banner diff-{{ song.difficulty }}">
+                        <span class="difficulty-number">{{ song.difficulty }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-3 flex items-center gap-2">
+                            {{ song.title }}
+                            {% if song.artist_verified %}
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            {% endif %}
+                        </h3>
+                        <p class="text-sm text-dark-text mb-1">{{ song.album.title }}</p>
+                        <p class="text-xs text-gray-400 mb-2">{{ song.tuning|default:"E Standard" }}</p>
+                        {% if song.difficulty %}
+                        <p class="text-xs text-gray-400 mb-2">Difficulty: {{ song.difficulty }}/4</p>
+                        {% endif %}
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-gray-400">{{ song.date_added|date:"M d, Y" }}</span>
+                            <span class="border border-dark-border rounded text-xs px-2 py-1">
+                                {% if song.artist_verified %}Verified{% else %}Completed{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

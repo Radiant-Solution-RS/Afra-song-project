@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <title>Afra's Tabs - Guitar Tablatures</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            primary: '#141414',
+                            secondary: '#1A1A1A',
+                            tertiary: '#222222',
+                            light: '#4a90e2',
+                            card: 'rgba(255, 255, 255, 0.04)',
+                            cardHover: 'rgba(255, 255, 255, 0.08)',
+                            border: 'rgba(255, 255, 255, 0.1)',
+                            text: '#cfcfcf',
+                            accent: '#357abd'
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-primary': 'linear-gradient(135deg, #0E0E0E 0%, #1A1A1A 50%, #222222 100%)',
+                        'gradient-card-1': 'linear-gradient(135deg, #8B4513, #2F1B0C)',
+                        'gradient-card-2': 'linear-gradient(135deg, #708090, #2F4F4F)',
+                        'gradient-card-3': 'linear-gradient(135deg, #1C1C1C, #000000)',
+                        'gradient-card-4': 'linear-gradient(135deg, #4169E1, #191970)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                font-family: 'Georgia', serif;
+                line-height: 1.6;
+            }
+        }
+        @layer utilities {
+            .text-4xl {
+                     font-family: "IM Fell English", serif;
+                     font-weight: 400;
+                     font-style: normal;
+            
+            }
+            .body {
+                font-family: "Libre Caslon Text", serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+            .text-xl {
+                font-family: "Libre Caslon Text", serif;
+                font-weight: 400;
+                font-style: normal;
+                font-size: 15px;
+            }
+            
+            .leading-tight {
+                font-family: "im fell english", serif;
+                font-weight: 400;
+                font-style: normal;
+                font-size: 17px;
+            }
+        }
+        
+        /* @layer utilities {
+            .donor-avatar {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .more-donors {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .search-box::placeholder {
+                color: #888;
+            }
+            
+            .other-amount::placeholder {
+                color: #888;
+            }
+        } */
+    </style>
+</head>
+<body class="bg-gradient-primary text-white min-h-screen font-['Times_New_Roman',_Times,_serif] leading-relaxed">
+    <header class="py-5 border-b border-dark-border">
+        <div class="container mx-auto px-5 max-w-6xl">
+            <nav class="flex justify-between items-center flex-wrap gap-5">
+                <a href="index.html" class="font-im-fell text-4xl font-semibold text-white no-underline">Afra's Tabs</a>
+                <ul class="flex list-none gap-10 text-xl">
+                    <li><a href="tabs.html"
+                            class="text-dark-text no-underline transition-colors duration-300 hover:text-dark-light">Tabs</a>
+                    </li>
+                    <li><a href="request.html"
+                            class="text-dark-text no-underline transition-colors duration-300 hover:text-dark-light">Make
+                            a request</a></li>
+                    <li><a href="about.html"
+                            class="text-dark-text no-underline transition-colors duration-300 hover:text-dark-light">About</a>
+                    </li>
+                </ul>
+                <input type="text"
+                    class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md py-2.5 px-5 text-white min-w-64 outline-none placeholder:opacity-60"
+                    placeholder="Search for songs, albums, artists">
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-8xl  py-15 px-5 text-center">
+        <div class="text-sm text-gray-400 mb-7">🏠 • • •</div>
+        <h1 class="text-4xl mb-10 font-normal">About</h1>
+        <div class="text-lg text-gray-300 leading-loose max-w-3xl mx-auto mb-20">
+            Lorem ipsum dolor sit amet consectetur. Euismod in nec condimentum vel tristique elementum egestas. 
+            Cras eu cras in. Euismod in nec condimentum vel tristique elementum egestas. Cras eu cras inLorem ipsum 
+            dolor sit amet consectetur. Euismod in nec condimentum vel
+        </div>
+    </main>
+
+        <section class="text-left mb-3 max-w-xl px-10 mx-auto">
+            <h2 class="text-4xl mb-7 font-normal">Great Donars</h2>
+            <div class="flex flex-wrap gap-4 items-center">
+                <div class="donor-avatar rounded-full bg-gray-600 overflow-hidden">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23666'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='%23fff' font-size='12'%3EUser%3C/text%3E%3C/svg%3E" alt="Donor">
+                </div>
+                <div class="donor-avatar rounded-full bg-gray-600 overflow-hidden">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23777'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='%23fff' font-size='12'%3EUser%3C/text%3E%3C/svg%3E" alt="Donor">
+                </div>
+                <div class="donor-avatar rounded-full bg-gray-600 overflow-hidden">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23888'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='%23fff' font-size='12'%3EUser%3C/text%3E%3C/svg%3E" alt="Donor">
+                </div>
+                <div class="donor-avatar rounded-full bg-gray-600 overflow-hidden">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23999'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='%23fff' font-size='12'%3EUser%3C/text%3E%3C/svg%3E" alt="Donor">
+                </div>
+                <div class="donor-avatar rounded-full bg-gray-600 overflow-hidden">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23aaa'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='%23fff' font-size='12'%3EUser%3C/text%3E%3C/svg%3E" alt="Donor">
+                </div>
+                <div class="donor-avatar rounded-full bg-gray-600 overflow-hidden">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23bbb'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='%23fff' font-size='12'%3EUser%3C/text%3E%3C/svg%3E" alt="Donor">
+                </div>
+                <div class="donor-avatar rounded-full bg-gray-600 overflow-hidden">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23ccc'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='%23fff' font-size='12'%3EUser%3C/text%3E%3C/svg%3E" alt="Donor">
+                </div>
+                <div class="donor-avatar rounded-full bg-gray-600 overflow-hidden">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23ddd'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='%23fff' font-size='12'%3EUser%3C/text%3E%3C/svg%3E" alt="Donor">
+                </div>
+                <div class="donor-avatar rounded-full bg-gray-600 overflow-hidden">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23eee'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='%23000' font-size='12'%3EUser%3C/text%3E%3C/svg%3E" alt="Donor">
+                </div>
+                <div class="donor-avatar rounded-full bg-gray-600 overflow-hidden">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23f0f0f0'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='%23000' font-size='12'%3EUser%3C/text%3E%3C/svg%3E" alt="Donor">
+                </div>
+                <div class="more-donors rounded-full bg-gray-500 flex items-center justify-center text-sm">+345</div>
+            </div>
+        </section>
+
+        <!-- <div class="text-center my-20 mb-10">
+            <h2 class="text-4xl mb-5 font-normal">Afra's Tabs</h2>
+            <div class="text-gray-300">
+                All guitar tablatures are created for educational and personal use only.<br>
+                Original songs and compositions are copyrighted by their respective owners.
+            </div> -->
+        </div>
+    </main>
+
+    <div class="fixed top-1/3  right-10 transform -translate-y-1/2 bg-dark-lighter border border-dark-light rounded-lg p-7 w-72 md:block hidden">
+        <h3 class="text-center text-lg mb-1 pb-1">Select Donation Amount</h3>
+        
+        <div class="grid grid-cols-5 gap-2 mb-4">
+            <button class="amount-btn py-2 px-1 bg-dark border border-dark-light text-white rounded text-xs transition-all hover:bg-accent hover:border-accent active" onclick="selectAmount(this, 10)">$10</button>
+            <button class="amount-btn py-2 px-1 bg-dark border border-dark-light text-white rounded text-xs transition-all hover:bg-accent hover:border-accent" onclick="selectAmount(this, 20)">$20</button>
+            <button class="amount-btn py-2 px-1 bg-dark border border-dark-light text-white rounded text-xs transition-all hover:bg-accent hover:border-accent" onclick="selectAmount(this, 30)">$30</button>
+            <button class="amount-btn py-2 px-1 bg-dark border border-dark-light text-white rounded text-xs transition-all hover:bg-accent hover:border-accent" onclick="selectAmount(this, 40)">$40</button>
+            <button class="amount-btn py-2 px-1 bg-dark border border-dark-light text-white rounded text-xs transition-all hover:bg-accent hover:border-accent" onclick="selectAmount(this, 50)">$50</button>
+        </div>
+
+        <input type="number" class="other-amount w-full p-2 bg-dark border border-dark-light rounded text-white mb-5 text-sm" placeholder="Other Amount (USD)" min="1">
+
+        <div class="mb-4">
+            <label class="block text-gray-300 text-sm mb-1">PAYMENT METHOD</label>
+            <select class="payment-select w-full p-2 bg-dark border border-dark-light rounded text-white text-sm">
+                <option>💳 Card</option>
+                <option>📱 PayPal</option>
+                <option>🏦 Bank Transfer</option>
+            </select>
+        </div>
+
+        <div class="mb-5">
+            <label class="block text-gray-300 text-sm mb-1">FREQUENCY</label>
+            <select class="frequency-select w-full p-2 bg-dark border border-dark-light rounded text-white text-sm">
+                <option>A One Time</option>
+                <option>Monthly</option>
+                <option>Yearly</option>
+            </select>
+        </div>
+
+        <button class="donate-btn w-full py-3 bg-accent border-none rounded text-white text-base cursor-pointer transition-colors hover:bg-accent-hover" onclick="handleDonation()">Donate Now</button>
+    </div>
+<footer class="mt-25 pt-15 pb-10 border-t border-dark-border text-center">
+        <div class="container mx-auto px-5 max-w-6xl">
+            <div class="text-4xl font-semibold mb-5 mt-10">Afra's Tabs</div>
+            <p class="text-dark-text max-w-3xl mx-auto mb-10">
+                All guitar tablatures are created for educational and personal use only.<br>
+                Original songs and compositions are copyrighted by their respective owners.
+            </p>
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-7.5  border-t border-dark-border text-gray-400 text-sm">
+                <div>© 2025 Afra's Tabs. All rights reserved.</div>
+                <a href="#" class="text-dark-text text-xl transition-colors duration-300 hover:text-dark-light mt-5">🎵</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let selectedAmount = 10;
+
+        function selectAmount(button, amount) {
+            document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('bg-accent', 'border-accent', 'active'));
+            button.classList.add('bg-accent', 'border-accent', 'active');
+            selectedAmount = amount;
+            document.querySelector('.other-amount').value = '';
+        }
+
+        function handleDonation() {
+            const otherAmount = document.querySelector('.other-amount').value;
+            const finalAmount = otherAmount ? parseFloat(otherAmount) : selectedAmount;
+            const paymentMethod = document.querySelector('.payment-select').value;
+            const frequency = document.querySelector('.frequency-select').value;
+            
+            if (finalAmount <= 0) {
+                alert('Please select a valid donation amount.');
+                return;
+            }
+            
+            alert(`Thank you for your donation of $${finalAmount}!\nPayment Method: ${paymentMethod}\nFrequency: ${frequency}\n\nThis is a demo - no actual payment will be processed.`);
+        }
+
+        document.querySelector('.other-amount').addEventListener('input', function() {
+            if (this.value) {
+                document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('bg-accent', 'border-accent', 'active'));
+                selectedAmount = parseFloat(this.value) || 0;
+            }
+        });
+
+        document.querySelector('.search-box').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                alert(`Searching for: "${this.value}"\n(This is a demo - search functionality would be implemented on the backend)`);
+            }
+        });
+    </script>
+</body>
+</html>

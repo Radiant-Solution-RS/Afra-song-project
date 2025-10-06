@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <title>Afra's Tabs - Guitar Tablatures</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            primary: '#141414',
+                            secondary: '#1A1A1A',
+                            tertiary: '#222222',
+                            light: '#4a90e2',
+                            card: 'rgba(255, 255, 255, 0.04)',
+                            cardHover: 'rgba(255, 255, 255, 0.08)',
+                            border: 'rgba(255, 255, 255, 0.1)',
+                            text: '#cfcfcf',
+                            accent: '#357abd'
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-primary': 'linear-gradient(135deg, #0E0E0E 0%, #1A1A1A 50%, #222222 100%)',
+                        'gradient-card-1': 'linear-gradient(135deg, #8B4513, #2F1B0C)',
+                        'gradient-card-2': 'linear-gradient(135deg, #708090, #2F4F4F)',
+                        'gradient-card-3': 'linear-gradient(135deg, #1C1C1C, #000000)',
+                        'gradient-card-4': 'linear-gradient(135deg, #4169E1, #191970)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/css">
+       
+        @layer utilities {
+            .text-4xl {
+                     font-family: "IM Fell English", serif;
+                     font-weight: 400;
+                     font-style: normal;
+            
+            }
+            .body {
+                font-family: "Libre Caslon Text", serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+            .text-xl {
+                font-family: "Libre Caslon Text", serif;
+                font-weight: 400;
+                font-style: normal;
+                font-size: 15px;
+            }
+            
+            .leading-tight {
+                font-family: "im fell english", serif;
+                font-weight: 400;
+                font-style: normal;
+                font-size: 17px;
+            }
+            
+        }
+    </style>
+</head>
+<body class="bg-gradient-primary text-white min-h-screen font-['Times_New_Roman',_Times,_serif] leading-relaxed">
+    <header class="py-5 border-b border-dark-border">
+        <div class="container mx-auto px-5 max-w-6xl">
+            <nav class="flex justify-between items-center flex-wrap gap-5">
+                <a href="index.html" class="font-im-fell text-4xl font-semibold text-white no-underline">Afra's Tabs</a>
+                <ul class="flex list-none gap-10">
+                    <li><a href="tabs.html"
+                            class="text-dark-text no-underline transition-colors duration-300 hover:text-dark-light">Tabs</a>
+                    </li>
+                    <li><a href="request.html"
+                            class="text-dark-text no-underline transition-colors duration-300 hover:text-dark-light">Make
+                            a request</a></li>
+                    <li><a href="about.html"
+                            class="text-dark-text no-underline transition-colors duration-300 hover:text-dark-light">About</a>
+                    </li>
+                </ul>
+                <input type="text"
+                    class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md py-2.5 px-5 text-white min-w-64 outline-none placeholder:opacity-60"
+                    placeholder="Search for songs, albums, artists">
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto py-10 px-5">
+        <section class="flex items-center gap-12 mb-15 flex-col md:flex-row">
+         
+            <section class="flex items-center gap-12 mb-15 flex-col md:flex-row">
+  <div class="album-cover group relative w-full md:w-[350px] h-[350px] rounded-xl overflow-hidden shadow-xl">
+    <img
+      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='350' viewBox='0 0 350 350'%3E%3Cdefs%3E%3CradialGradient id='space' cx='30%25' cy='20%25' r='70%25'%3E%3Cstop offset='0%25' style='stop-color:%23444'/%3E%3Cstop offset='50%25' style='stop-color:%23222'/%3E%3Cstop offset='100%25' style='stop-color:%23000'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='350' height='350' fill='url(%23space)'/%3E%3Ccircle cx='120' cy='80' r='40' fill='%23666' opacity='0.6'/%3E%3Ccircle cx='120' cy='80' r='35' fill='%23888' opacity='0.4'/%3E%3Cellipse cx='200' cy='200' rx='80' ry='40' fill='%23333' opacity='0.7' transform='rotate(25 200 200)'/%3E%3Cpath d='M50,300 Q150,250 250,300 Q200,320 100,310 Z' fill='%23444' opacity='0.5'/%3E%3Ccircle cx='100' cy='60' r='2' fill='%23fff' opacity='0.8'/%3E%3Ccircle cx='280' cy='90' r='1.5' fill='%23fff' opacity='0.6'/%3E%3Ccircle cx='300' cy='150' r='1' fill='%23fff' opacity='0.9'/%3E%3Ccircle cx='50' cy='120' r='1' fill='%23fff' opacity='0.7'/%3E%3C/svg%3E"
+      alt="Dark Space III Album Cover"
+      class="w-full h-full object-cover transition-all duration-300 group-hover:brightness-50 group-hover:saturate-200 group-hover:sepia group-hover:hue-rotate-180"
+    />
+
+  
+    <div class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+
+      <div class="absolute inset-0 bg-blue-900/60"></div>
+
+
+      <div class="relative z-10 flex gap-4">
+        <button class="px-4 py-2 bg-white/20 text-white border border-white/40 rounded-lg backdrop-blur-md hover:bg-white/30 transition">
+          Description
+        </button>
+        <button class="px-4 py-2 bg-white/20 text-white border border-white/40 rounded-lg backdrop-blur-md hover:bg-white/30 transition">
+          Changelog
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+            <div class="album-info flex-1 text-center md:text-left">
+                <div class="breadcrumb text-sm text-gray-400 mb-5">🏠 • • • </div>
+                <h1 class="album-title text-4xl font-bold mb-4">Dark Space |||  </h1>
+                <div class="album-artist text-2xl text-gray-300 mb-2">Dark Space <a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID" target="_blank" rel="noopener noreferrer">
+    <button class="px-4 py-2 bg-white/20 text-white border border-white/40 rounded-lg backdrop-blur-md hover:bg-white/30 transition ml-80 p-4">
+      Youtube
+    </button>
+  </a>
+</div>
+                <div class="album-year text-lg text-gray-400 mb-2">2008</div>
+                <div class="album-tabs text-lg text-gray-300">1 tab</div>
+               
+            </div>
+        </section>
+
+        <section class="tracklist bg-gray-800 border border-gray-600 rounded-xl overflow-hidden mb-20 mt-10">
+            <div class="track-item flex items-center p-4 border-b border-gray-600 transition-colors cursor-pointer hover:bg-gray-700 last:border-b-0">
+                <div class="track-number text-base text-gray-400 mr-5 min-w-[30px]">06</div>
+                <div class="track-thumbnail w-10 h-10 rounded overflow-hidden mr-4">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23333'/%3E%3Ccircle cx='20' cy='20' r='15' fill='%23555'/%3E%3Ccircle cx='20' cy='20' r='8' fill='%23777'/%3E%3C/svg%3E" alt="Track thumbnail">
+                </div>
+                <div class="track-info flex-1">
+                    <div class="track-name text-base text-white">Dark 3.16</div>
+                </div>
+                <div class="track-meta flex items-center gap-4 ml-auto">
+                    <div class="difficulty bg-gray-600 text-white py-1 px-2 rounded text-xs">x/4</div>
+                    <div class="track-duration text-sm text-gray-400 min-w-[50px] text-right">14:08</div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="mt-25 pt-15 pb-10 border-t border-dark-border text-center">
+        <div class="container mx-auto px-5 max-w-6xl">
+            <div class="text-4xl font-semibold mb-5 mt-10">Afra's Tabs</div>
+            <p class="text-dark-text max-w-3xl mx-auto mb-10">
+                All guitar tablatures are created for educational and personal use only.<br>
+                Original songs and compositions are copyrighted by their respective owners.
+            </p>
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-7.5  border-t border-dark-border text-gray-400 text-sm">
+                <div>© 2025 Afra's Tabs. All rights reserved.</div>
+                <a href="#" class="text-dark-text text-xl transition-colors duration-300 hover:text-dark-light mt-5">🎵</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('input[type="search"]').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                alert(`Searching for: "${this.value}"`);
+            }
+        });
+
+        document.querySelector('.track-item').addEventListener('click', function() {
+            alert('Opening Dark 3.16 tab...');
+        });
+    </script>
+</body>
+</html>

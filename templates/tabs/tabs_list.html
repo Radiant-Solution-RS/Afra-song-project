@@ -1,0 +1,280 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+{{ block.super }}
+<style type="text/css">
+    /* ====== STYLES ====== */
+    .slider-container {
+        position: relative;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+        margin: 20px 0;
+    }
+    .slider-track {
+        position: absolute;
+        height: 100%;
+        background: linear-gradient(90deg, #0a0b0c, #0a0b0c);
+        border-radius: 3px;
+        left: 10%;
+        width: 60%;
+        transition: all 0.3s ease;
+    }
+    .slider-handles {
+        position: absolute;
+        top: -7px;
+        width: 100%;
+    }
+    .slider-handle {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #6b7280;
+        border: 3px solid #ffffff;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+        transform-origin: center;
+    }
+    .slider-handle:hover {
+        transform: scale(1.2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+    .slider-handle:nth-child(1) { left: 20%; }
+    .slider-handle:nth-child(2) { left: 40%; }
+    .slider-handle:nth-child(3) { left: 60%; }
+    .slider-handle:nth-child(4) { left: 80%; }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let selectedMin = 1;
+    let selectedMax = 4;
+
+    function updateSliderVisual() {
+        const handles = document.querySelectorAll('.slider-handle');
+        const track = document.querySelector('.slider-track');
+        handles.forEach(h => h.classList.remove('bg-blue-500', 'scale-110'));
+        for (let i = selectedMin; i <= selectedMax; i++) {
+            const h = handles[i - 1];
+            if (h) h.classList.add('bg-blue-500', 'scale-110');
+        }
+        const startPos = (selectedMin - 1) * 20 + 10;
+        const endPos = (selectedMax - 1) * 20 + 10;
+        track.style.left = startPos + '%';
+        track.style.width = (endPos - startPos) + '%';
+    }
+    document.querySelectorAll('.slider-handle').forEach(handle => {
+        handle.addEventListener('click', function() {
+            const value = Array.from(handle.parentNode.children).indexOf(handle) + 1;
+            if (value < selectedMin || value > selectedMax) {
+                if (value < selectedMin) selectedMin = value;
+                else selectedMax = value;
+            } else {
+                if (selectedMin === selectedMax) {
+                    selectedMin = 1; selectedMax = 4;
+                } else {
+                    if (value === selectedMin && selectedMin < selectedMax) selectedMin++;
+                    else if (value === selectedMax && selectedMax > selectedMin) selectedMax--;
+                }
+            }
+            updateSliderVisual();
+        });
+    });
+    updateSliderVisual();
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<main class="container mx-auto px-5 flex-1 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-10">
+        <!-- Sidebar -->
+        <aside class="flex flex-col gap-8">
+            <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
+                <h3 class="text-xl font-semibold text-white mb-5">Show Categories</h3>
+                <div class="flex flex-col gap-3">
+                    <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:tabs_list' %}">
+                        <span class="text-white font-medium">Songs</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">34</span>
+                    </a>
+                    <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:albums_list' %}">
+                        <span class="text-white font-medium">Albums</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">16</span>
+                    </a>
+                    <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:artists_list' %}">
+                        <span class="text-white font-medium">Artists</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">54</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
+                <h3 class="text-xl font-semibold text-white mb-5">Filters</h3>
+                <div class="mb-6">
+                    <label class="block text-white font-medium mb-2.5">Name (A - Z)</label>
+                    <select class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
+                        <option>A to Z</option>
+                        <option>Z to A</option>
+                        <option>Recently Added</option>
+                        <option>Most Popular</option>
+                    </select>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-white font-medium mb-2.5">Tuning</label>
+                    <select class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
+                        <option>All Tunings</option>
+                        <option>E Standard</option>
+                        <option>Drop D</option>
+                        <option>Drop C</option>
+                        <option>Drop B</option>
+                        <option>DADGAD</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-white font-medium mb-2.5">Difficulty</label>
+                    <div class="slider-container">
+                        <div class="slider-track"></div>
+                        <div class="slider-handles">
+                            <div class="slider-handle"></div>
+                            <div class="slider-handle"></div>
+                            <div class="slider-handle"></div>
+                            <div class="slider-handle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Section -->
+                              <section class="tab-section">
+  <div class="tabs-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+
+    
+    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary w- flex flex-col">
+      
+      
+      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
+        <img src="{% static 'images/img.png' %}" alt="Darkspace" class="w-full h-full object-cover">
+        
+      </div>
+
+     
+      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
+        <div>
+          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
+            <a href="./ArtistIndividual.html">1349</a>
+          </h3>
+          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
+            <span>2025</span>
+          </div>
+        </div>
+        <div class="tab-footer flex justify-between items-center">
+          <span class="text-gray-400 text-sm">1 Tab</span>
+          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
+            Completed
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
+      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
+        <img src="{% static 'images/img.png' %}" alt="Darkspace" class="w-full h-full object-cover">
+      </div>
+      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
+        <div>
+          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
+            <a href="./ArtistIndividual.html">Darkspace</a>
+          </h3>
+          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
+            <span>2025</span>
+          </div>
+        </div>
+        <div class="tab-footer flex justify-between items-center">
+          <span class="text-gray-400 text-sm">1 Tab</span>
+          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
+            Completed
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
+      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
+        <img src="{% static 'images/img.png' %}" alt="Darkspace" class="w-full h-full object-cover">
+      </div>
+      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
+        <div>
+          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
+            <a href="./ArtistIndividual.html">Darkspace</a>
+          </h3>
+          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
+            <span>2025</span>
+          </div>
+        </div>
+        <div class="tab-footer flex justify-between items-center">
+          <span class="text-gray-400 text-sm">1 Tab</span>
+          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
+            Completed
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
+      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
+        <img src="{% static 'images/img.png' %}" alt="Darkspace" class="w-full h-full object-cover">
+      </div>
+      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
+        <div>
+          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
+            <a href="./ArtistIndividual.html">Darkspace</a>
+          </h3>
+          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
+            <span>2025</span>
+          </div>
+        </div>
+        <div class="tab-footer flex justify-between items-center">
+          <span class="text-gray-400 text-sm">1 Tab</span>
+          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
+            Completed
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
+      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
+        <img src="{% static 'images/img.png' %}" alt="Darkspace" class="w-full h-full object-cover">
+      </div>
+      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
+        <div>
+          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
+            <a href="./ArtistIndividual.html">Darkspace</a>
+          </h3>
+          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
+            <span>2025</span>
+          </div>
+        </div>
+        <div class="tab-footer flex justify-between items-center">
+          <span class="text-gray-400 text-sm">1 Tab</span>
+          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
+            Completed
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</section>
+    </div>
+</main>
+{% endblock %}
+```
