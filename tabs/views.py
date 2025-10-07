@@ -177,7 +177,9 @@ def artists_list(request):
 
 def about(request):
     """About page view"""
-    return render(request, 'tabs/about.html')
+    donation_amounts = [10, 20, 30, 40, 50]
+    context = { 'donation_amounts': donation_amounts }
+    return render(request, 'tabs/about.html', context)
 
 
 def song_detail(request, artist_slug, album_slug, song_slug):

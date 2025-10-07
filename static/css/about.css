@@ -1,0 +1,29 @@
+/* About Page Styles (scoped with body class) */
+
+.page-about .about-wrapper { max-width: 72rem; padding: 4rem 1.5rem 4.5rem; text-align: center; }
+.page-about .about-wrapper .breadcrumbs { font-size: .8rem; color: #9ca3af; margin-bottom: 1.5rem; letter-spacing:.05em; }
+.page-about .about-wrapper .page-title { font-size: 3rem; margin-bottom: 2rem; font-family: "IM Fell English", serif; font-weight:400; }
+.page-about .about-wrapper .intro { line-height: 1.75; color: #d1d5db; font-size: 1.05rem; margin: 0 auto 2.5rem; max-width: 50rem; }
+
+.page-about .donors-section { text-align: left; margin: 0 auto 1.5rem; max-width: 44rem; padding: 0 1rem; }
+.page-about .donors-section .section-title { font-size: 2.25rem; margin-bottom: 1.25rem; font-family: "IM Fell English", serif; font-weight: 400; }
+.page-about .donor-grid { display: flex; flex-wrap: wrap; gap: .9rem; align-items: center; }
+.page-about .donor-avatar, .page-about .more-donors { width: 60px; height: 60px; border-radius: 9999px; background: #4b5563; display:flex; align-items:center; justify-content:center; font-size:.7rem; }
+.page-about .more-donors { background:#063869; color:#fff; font-weight:600; }
+
+/* Donation Panel */
+.page-about .donate-panel { position: fixed; top: 50%; right: 2.5rem; transform: translateY(-50%); background:#1f2937; border:1px solid rgba(255,255,255,0.08); border-radius:1rem; width:18rem; padding:1.5rem 1.25rem 1.75rem; display:flex; flex-direction:column; gap:.9rem; box-shadow:0 4px 28px -4px rgba(0,0,0,0.4); }
+.page-about .donate-panel h3 { text-align:center; margin:0 0 .25rem; font-size:1rem; font-weight:600; letter-spacing:.03em; }
+.page-about .amount-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:.35rem; }
+.page-about .amount-btn { background:#111827; color:#f9fafb; border:1px solid rgba(255,255,255,0.1); padding:.55rem .25rem; border-radius:.5rem; font-size:.65rem; font-weight:500; cursor:pointer; transition:.25s; letter-spacing:.02em; }
+.page-about .amount-btn:hover, .page-about .amount-btn.active { background:#0554a3; border-color:#357abd; }
+.page-about .other-amount { background:#111827; border:1px solid rgba(255,255,255,0.1); color:#f1f5f9; padding:.6rem .65rem; border-radius:.55rem; font-size:.75rem; width:100%; }
+.page-about .other-amount::placeholder { color:#64748b; }
+.page-about .select-wrapper label { display:block; font-size:.6rem; letter-spacing:.08em; color:#cbd5e1; margin-bottom:.35rem; font-weight:600; }
+.page-about .select-wrapper select { background:#111827; border:1px solid rgba(255,255,255,0.1); color:#f8fafc; padding:.55rem .55rem; border-radius:.55rem; font-size:.7rem; width:100%; }
+.page-about .donate-btn { background:#083a6d; border:none; color:#fff; font-weight:600; border-radius:.55rem; padding:.7rem 1rem; font-size:.8rem; cursor:pointer; transition:.25s; letter-spacing:.03em; }
+.page-about .donate-btn:hover { background:#255988; }
+
+@media (max-width:1280px){ .page-about .donate-panel{ right:1rem; } }
+@media (max-width:1100px){ .page-about .donate-panel{ position:static; transform:none; width:100%; margin:2.5rem auto 0; box-shadow:none; } }
+@media (max-width:640px){ .page-about .about-wrapper { padding:3rem 1.1rem 3.5rem; } .page-about .about-wrapper .page-title{ font-size:2.25rem; } .page-about .donors-section{ padding:0 .25rem; } }
