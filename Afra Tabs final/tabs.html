@@ -182,20 +182,44 @@
                         </select>
                     </div>
 
-                    <div class="mb-6 last:mb-0">
-                        <label class="block text-white font-medium mb-2.5">Difficulty</label>
-                        <div class="difficulty-slider mt-4">
-                            <div class="slider-container">
-                                <div class="slider-track"></div>
-                                <div class="slider-handles">
-                                    <div class="slider-handle"></div>
-                                    <div class="slider-handle"></div>
-                                    <div class="slider-handle"></div>
-                                    <div class="slider-handle"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                  <div class="mb-6 last:mb-0">
+  <label class="block text-white font-medium mb-2.5">Difficulty</label>
+  <div class="difficulty-slider mt-4 relative w-full max-w-md mx-auto">
+    <div class="slider-container relative h-2 bg-gray-300 rounded-full">
+      <!-- Active range track -->
+      <div id="activeTrack" class="absolute top-0 left-1/4 right-1/4 h-2 bg-red-400 rounded-full"></div>
+
+      <!-- Range inputs -->
+      <input id="minRange" type="range" min="10" max="18" value="12" step="1"
+        class="absolute w-full h-2 opacity-0 cursor-pointer z-10">
+      <input id="maxRange" type="range" min="10" max="18" value="16" step="1"
+        class="absolute w-full h-2 opacity-0 cursor-pointer z-10">
+
+      <!-- Handles and bubbles -->
+      <div id="minHandle" class="absolute top-[-6px] left-[25%]">
+        <div class="slider-bubble absolute -top-10 left-1/2 -translate-x-1/2 bg-red-500 text-white text-sm font-semibold px-2 py-1 rounded-lg">
+          <span id="minValue">12</span>
+          <div class="arrow-down absolute bottom-[-4px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-red-500"></div>
+        </div>
+        <div class="handle-dot w-5 h-5 bg-red-500 rounded-full"></div>
+      </div>
+
+      <div id="maxHandle" class="absolute top-[-6px] left-[65%]">
+        <div class="slider-bubble absolute -top-10 left-1/2 -translate-x-1/2 bg-red-500 text-white text-sm font-semibold px-2 py-1 rounded-lg">
+          <span id="maxValue">16</span>
+          <div class="arrow-down absolute bottom-[-4px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-red-500"></div>
+        </div>
+        <div class="handle-dot w-5 h-5 bg-red-500 rounded-full"></div>
+      </div>
+    </div>
+
+    <!-- Scale numbers below -->
+    <div class="flex justify-between text-gray-400 text-xs mt-3 px-1">
+      <span>10</span><span>12</span><span>14</span><span>16</span><span>18</span>
+    </div>
+  </div>
+</div>
+
                 </div>
             </aside>
   <section class="tab-section">
@@ -337,5 +361,51 @@
             </div>
         </div>
     </footer>
+
+    <script>
+const minRange = document.getElementById("minRange");
+const maxRange = document.getElementById("maxRange");
+const minHandle = document.getElementById("minHandle");
+const maxHandle = document.getElementById("maxHandle");
+const minValue = document.getElementById("minValue");
+const maxValue = document.getElementById("maxValue");
+const activeTrack = document.getElementById("activeTrack");
+
+function updateSlider() {
+  let minVal = parseInt(minRange.value);
+  let maxVal = parseInt(maxRange.value);
+
+  if (maxVal - minVal < 1) {
+    if (event.target === minRange) minRange.value = maxVal - 1;
+    else maxRange.value = minVal + 1;
+    minVal = parseInt(minRange.value);
+    maxVal = parseInt(maxRange.value);
+  }
+
+  const percent1 = ((minVal - 10) / (18 - 10)) * 100;
+  const percent2 = ((maxVal - 10) / (18 - 10)) * 100;
+
+  minHandle.style.left = `${percent1}%`;
+  maxHandle.style.left = `${percent2}%`;
+  activeTrack.style.left = `${percent1}%`;
+  activeTrack.style.right = `${100 - percent2}%`;
+
+  minValue.textContent = minVal;
+  maxValue.textContent = maxVal;
+}
+
+minRange.addEventListener("input", updateSlider);
+maxRange.addEventListener("input", updateSlider);
+</script>
+<style>
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #ef4444; /* Tailwind red-500 */
+}
+</style>
+
 </body>
 </html>

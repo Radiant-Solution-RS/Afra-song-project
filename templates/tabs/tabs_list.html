@@ -102,15 +102,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="flex flex-col gap-3">
                     <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:tabs_list' %}">
                         <span class="text-white font-medium">Songs</span>
-                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">34</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.songs }}</span>
                     </a>
                     <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:albums_list' %}">
                         <span class="text-white font-medium">Albums</span>
-                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">16</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.albums }}</span>
                     </a>
                     <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:artists_list' %}">
                         <span class="text-white font-medium">Artists</span>
-                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">54</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.artists }}</span>
                     </a>
                 </div>
             </div>
@@ -153,126 +153,40 @@ document.addEventListener('DOMContentLoaded', function() {
         </aside>
 
         <!-- Main Section -->
-                              <section class="tab-section">
-  <div class="tabs-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-
-    
-    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary w- flex flex-col">
-      
-      
-      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
-        <img src="{% static 'images/img.png' %}" alt="Darkspace" class="w-full h-full object-cover">
-        
-      </div>
-
-     
-      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
-        <div>
-          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
-            <a href="./ArtistIndividual.html">1349</a>
-          </h3>
-          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
-            <span>2025</span>
-          </div>
-        </div>
-        <div class="tab-footer flex justify-between items-center">
-          <span class="text-gray-400 text-sm">1 Tab</span>
-          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
-            Completed
-          </span>
-        </div>
-      </div>
-    </div>
-
-
+<section class="tab-section">
+    <div class="tabs-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        {% for song in page_obj %}
     <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
       <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
-        <img src="{% static 'images/img.png' %}" alt="Darkspace" class="w-full h-full object-cover">
+        <img src="{{ song.artist.artist_img }}" alt="{{ song.artist.name }}" class="w-full h-full object-cover">
       </div>
       <div class="tab-info p-4 flex flex-col justify-between flex-grow">
         <div>
           <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
-            <a href="./ArtistIndividual.html">Darkspace</a>
+            <a href="{% url 'tabs:song_detail' artist_slug=song.artist.name_cleaned album_slug=song.album.title_cleaned song_slug=song.title_cleaned %}">{{ song.title }}</a>
           </h3>
-          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
-            <span>2025</span>
-          </div>
+                    <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
+                        <span class="truncate max-w-[120px]" title="Album">{% if song.album %}{{ song.album.title }}{% else %}No Album{% endif %}</span>
+                        <span class="text-xs text-gray-500" title="Date Added">{{ song.date_added|date:'Y-m-d' }}</span>
+                    </div>
         </div>
         <div class="tab-footer flex justify-between items-center">
-          <span class="text-gray-400 text-sm">1 Tab</span>
-          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
-            Completed
-          </span>
+                    <span class="text-gray-400 text-xs flex flex-col gap-0.5">
+                        {% if song.tuning %}<span title="Tuning">{{ song.tuning }}</span>{% endif %}
+                        {% if song.difficulty %}<span title="Difficulty">Difficulty: {{ song.difficulty }}</span>{% endif %}
+                        {% if song.riffs %}<span title="Riffs">Riffs: {{ song.riffs }}</span>{% endif %}
+                    </span>
+                    <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-xs font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]" title="Artist Verified?">
+                        {% if song.artist_verified %}Verified{% else %}Unverified{% endif %}
+                    </span>
         </div>
       </div>
     </div>
-    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
-      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
-        <img src="{% static 'images/img.png' %}" alt="Darkspace" class="w-full h-full object-cover">
-      </div>
-      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
-        <div>
-          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
-            <a href="./ArtistIndividual.html">Darkspace</a>
-          </h3>
-          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
-            <span>2025</span>
-          </div>
-        </div>
-        <div class="tab-footer flex justify-between items-center">
-          <span class="text-gray-400 text-sm">1 Tab</span>
-          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
-            Completed
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
-      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
-        <img src="{% static 'images/img.png' %}" alt="Darkspace" class="w-full h-full object-cover">
-      </div>
-      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
-        <div>
-          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
-            <a href="./ArtistIndividual.html">Darkspace</a>
-          </h3>
-          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
-            <span>2025</span>
-          </div>
-        </div>
-        <div class="tab-footer flex justify-between items-center">
-          <span class="text-gray-400 text-sm">1 Tab</span>
-          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
-            Completed
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
-      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
-        <img src="{% static 'images/img.png' %}" alt="Darkspace" class="w-full h-full object-cover">
-      </div>
-      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
-        <div>
-          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
-            <a href="./ArtistIndividual.html">Darkspace</a>
-          </h3>
-          <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
-            <span>2025</span>
-          </div>
-        </div>
-        <div class="tab-footer flex justify-between items-center">
-          <span class="text-gray-400 text-sm">1 Tab</span>
-          <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-sm font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
-            Completed
-          </span>
-        </div>
-      </div>
-    </div>
-
-
-
+    {% empty %}
+    <p class="text-white">No songs found.</p>
+    {% endfor %}
   </div>
+</section>
 </section>
     </div>
 </main>
