@@ -4,15 +4,15 @@
 {% block content %}
 <div class="container mx-auto px-5 py-10">
     <div class="max-w-4xl mx-auto">
-        <!-- Song Header -->
+        
         <div class="bg-dark-card border border-dark-border rounded-xl p-8 mb-8">
             <div class="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-8">
-                <!-- Album Art -->
+                
                 <div class="aspect-square bg-gradient-card-1 rounded-lg flex items-center justify-center text-6xl font-bold text-white/90">
                     {{ song.artist.name|upper|slice:":8" }}
                 </div>
                 
-                <!-- Song Info -->
+                
                 <div>
                     <h1 class="text-4xl font-bold mb-2">{{ song.title }}</h1>
                     <p class="text-xl text-dark-text mb-2">by {{ song.artist.name }}</p>
@@ -78,7 +78,7 @@
             </div>
         </div>
         
-        <!-- Tab Description -->
+        
         {% if song.tab_description and song.tab_description != "Description not provided" %}
         <div class="bg-dark-card border border-dark-border rounded-xl p-6 mb-8">
             <h2 class="text-2xl font-semibold mb-2">Description</h2>
@@ -86,7 +86,7 @@
         </div>
         {% endif %}
         
-        <!-- Related Songs -->
+        
         {% if related_songs %}
         <div class="bg-dark-card border border-dark-border rounded-xl p-6">
             <h2 class="text-2xl font-semibold mb-3">More from {{ song.album.title }}</h2>

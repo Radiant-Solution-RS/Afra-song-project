@@ -1,64 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block extra_css %}
-{{ block.super }}
-<style type="text/css">
-    .slider-container {
-        position: relative;
-        height: 6px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 3px;
-        margin: 20px 0;
-    }
-
-    .slider-track {
-        position: absolute;
-        height: 100%;
-        background: linear-gradient(90deg, #4a90e2, #357abd);
-        border-radius: 3px;
-        left: 10%;
-        width: 60%;
-        transition: all 0.3s ease;
-    }
-
-    .slider-handles {
-        position: absolute;
-        top: -7px;
-        width: 100%;
-    }
-
-    .slider-handle {
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        background: #6b7280;
-        border: 3px solid #ffffff;
-        border-radius: 50%;
-        cursor: pointer;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        transition: all 0.3s ease;
-        transform-origin: center;
-    }
-    
-    .slider-handle:hover {
-        transform: scale(1.2);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    }
-
-    .slider-handle:nth-child(1) { left: 20%; }
-    .slider-handle:nth-child(2) { left: 40%; }
-    .slider-handle:nth-child(3) { left: 60%; }
-    .slider-handle:nth-child(4) { left: 80%; }
-
-    .tab-card:nth-child(1) .tab-image { background: linear-gradient(135deg, #8B4513, #2F1B0C); }
-    .tab-card:nth-child(2) .tab-image { background: linear-gradient(135deg, #708090, #F0F8FF); }
-    .tab-card:nth-child(3) .tab-image { background: linear-gradient(135deg, #1C1C1C, #4A4A4A); }
-    .tab-card:nth-child(4) .tab-image { background: linear-gradient(135deg, #4169E1, #E6E6FA); }
-    .tab-card:nth-child(5) .tab-image { background: linear-gradient(135deg, #2F4F4F, #F0F8FF); }
-    
-    /* Difficulty Banner Styles */
-    .difficulty-banner {
+{% block extra_css %}{{ block.super }}{% endblock %}
         position: absolute;
         top: 0;
         right: 0;
@@ -103,80 +46,6 @@
 </style>
 {% endblock %}
 
-{% block extra_js %}
-{{ block.super }}
-<script>
-    // Difficulty Slider Functionality
-    let selectedMin = parseInt(document.getElementById('min_difficulty').value) || 1;
-    let selectedMax = parseInt(document.getElementById('max_difficulty').value) || 4;
-    let isDragging = false;
-    let currentHandle = null;
-    
-    function updateSliderVisual() {
-        const handles = document.querySelectorAll('.slider-handle');
-        const track = document.getElementById('slider-track');
-        
-        // Reset all handles
-        handles.forEach(handle => {
-            handle.classList.remove('bg-blue-500', 'scale-110');
-            handle.classList.add('bg-gray-600');
-        });
-        
-        // Highlight selected range
-        for (let i = selectedMin; i <= selectedMax; i++) {
-            const handle = document.getElementById(`handle-${i}`);
-            if (handle) {
-                handle.classList.remove('bg-gray-600');
-                handle.classList.add('bg-blue-500', 'scale-110');
-            }
-        }
-        
-        // Update track
-        const startPos = (selectedMin - 1) * 20 + 10; // 20% per step, +10% offset
-        const endPos = (selectedMax - 1) * 20 + 10;
-        track.style.left = startPos + '%';
-        track.style.width = (endPos - startPos) + '%';
-        
-        // Update display
-        document.getElementById('min-diff').textContent = selectedMin;
-        document.getElementById('max-diff').textContent = selectedMax;
-        document.getElementById('min_difficulty').value = selectedMin;
-        document.getElementById('max_difficulty').value = selectedMax;
-    }
-    
-    function submitForm() {
-        const form = document.querySelector('form');
-        if (form) {
-            form.submit();
-        }
-    }
-    
-    // Handle clicks on difficulty handles
-    document.querySelectorAll('.slider-handle').forEach(handle => {
-        handle.addEventListener('click', function(e) {
-            e.preventDefault();
-            const value = parseInt(this.dataset.value);
-            
-            if (value < selectedMin || value > selectedMax) {
-                // Extend range
-                if (value < selectedMin) {
-                    selectedMin = value;
-                } else {
-                    selectedMax = value;
-                }
-            } else {
-                // Shrink range or toggle single value
-                if (selectedMin === selectedMax) {
-                    // Single value selected, do nothing or reset to full range
-                    selectedMin = 1;
-                    selectedMax = 4;
-                } else {
-                    // Shrink range
-                    if (value === selectedMin && selectedMin < selectedMax) {
-                        selectedMin = value + 1;
-                    } else if (value === selectedMax && selectedMax > selectedMin) {
-                        selectedMax = value - 1;
-                    }
                 }
             }
             

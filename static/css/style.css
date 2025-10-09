@@ -1,17 +1,13 @@
 
-
 .page-about .about-wrapper { max-width: 72rem; padding: 4rem 1.5rem 4.5rem; text-align: center; }
 .page-about .about-wrapper .breadcrumbs { font-size: .8rem; color: #9ca3af; margin-bottom: 1.5rem; letter-spacing:.05em; }
 .page-about .about-wrapper .page-title { font-size: 3rem; margin-bottom: 2rem; font-family: "IM Fell English", serif; font-weight:400; }
 .page-about .about-wrapper .intro { line-height: 1.75; color: #d1d5db; font-size: 1.05rem; margin: 0 auto 2.5rem; max-width: 50rem; }
-
 .page-about .donors-section { text-align: left; margin: 0 auto 1.5rem; max-width: 44rem; padding: 0 1rem; }
 .page-about .donors-section .section-title { font-size: 2.25rem; margin-bottom: 1.25rem; font-family: "IM Fell English", serif; font-weight: 400; }
 .page-about .donor-grid { display: flex; flex-wrap: wrap; gap: .9rem; align-items: center; }
 .page-about .donor-avatar, .page-about .more-donors { width: 60px; height: 60px; border-radius: 9999px; background: #4b5563; display:flex; align-items:center; justify-content:center; font-size:.7rem; }
 .page-about .more-donors { background:#063869; color:#fff; font-weight:600; }
-
-
 .page-about .donate-panel { position: fixed; top: 50%; right: 2.5rem; transform: translateY(-50%); background:#1f2937; border:1px solid rgba(255,255,255,0.08); border-radius:1rem; width:18rem; padding:1.5rem 1.25rem 1.75rem; display:flex; flex-direction:column; gap:.9rem; box-shadow:0 4px 28px -4px rgba(0,0,0,0.4); }
 .page-about .donate-panel h3 { text-align:center; margin:0 0 .25rem; font-size:1rem; font-weight:600; letter-spacing:.03em; }
 .page-about .amount-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:.35rem; }
@@ -23,7 +19,42 @@
 .page-about .select-wrapper select { background:#111827; border:1px solid rgba(255,255,255,0.1); color:#f8fafc; padding:.55rem .55rem; border-radius:.55rem; font-size:.7rem; width:100%; }
 .page-about .donate-btn { background:#083a6d; border:none; color:#fff; font-weight:600; border-radius:.55rem; padding:.7rem 1rem; font-size:.8rem; cursor:pointer; transition:.25s; letter-spacing:.03em; }
 .page-about .donate-btn:hover { background:#255988; }
-
 @media (max-width:1280px){ .page-about .donate-panel{ right:1rem; } }
 @media (max-width:1100px){ .page-about .donate-panel{ position:static; transform:none; width:100%; margin:2.5rem auto 0; box-shadow:none; } }
 @media (max-width:640px){ .page-about .about-wrapper { padding:3rem 1.1rem 3.5rem; } .page-about .about-wrapper .page-title{ font-size:2.25rem; } .page-about .donors-section{ padding:0 .25rem; } }
+
+
+.slider-container { position: relative; height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; margin: 20px 0; }
+.slider-track { position: absolute; height: 100%; background: linear-gradient(90deg,#0a0b0c,#0a0b0c); border-radius: 3px; left:10%; width:60%; transition: all .3s ease; }
+.slider-handles { position:absolute; top:-7px; width:100%; }
+.slider-handle { position:absolute; width:20px; height:20px; background:#6b7280; border:3px solid #ffffff; border-radius:50%; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.3); transition:all .3s ease; transform-origin:center; }
+.slider-handle:hover { transform:scale(1.2); box-shadow:0 4px 12px rgba(0,0,0,0.4); }
+.slider-handle:nth-child(1){ left:20%; }
+.slider-handle:nth-child(2){ left:40%; }
+.slider-handle:nth-child(3){ left:60%; }
+.slider-handle:nth-child(4){ left:80%; }
+
+
+.page-artists .slider-track { background: linear-gradient(90deg,#4a90e2,#357abd); width:70%; left:0; }
+
+
+.album-card::before { content:""; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,#000,#000,#000); opacity:0; transition:opacity .3s ease; }
+.album-card:hover::before { opacity:1; }
+.album-artwork::after { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,0,0,0.1),rgba(0,0,0,0.3)); transition:all .3s ease; }
+.album-card:hover .album-artwork::after { background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(0,0,0,0.2)); }
+
+
+.difficulty-banner { position:absolute; top:0; right:0; width:0; height:0; border-left:30px solid transparent; opacity:0; transition:opacity .3s ease; }
+.tab-card:hover .difficulty-banner { opacity:1; }
+.difficulty-banner.diff-1 { border-top:30px solid #22c55e; }
+.difficulty-banner.diff-2 { border-top:30px solid #eab308; }
+.difficulty-banner.diff-3 { border-top:30px solid #ef4444; }
+.difficulty-banner.diff-4 { border-top:30px solid #000000; }
+.difficulty-number { position:absolute; top:-25px; right:-10px; color:#fff; font-weight:700; font-size:11px; text-shadow:1px 1px 2px rgba(0,0,0,0.8); }
+
+
+.tab-card:nth-child(1) .tab-image { background: linear-gradient(135deg,#8B4513,#2F1B0C); }
+.tab-card:nth-child(2) .tab-image { background: linear-gradient(135deg,#708090,#F0F8FF); }
+.tab-card:nth-child(3) .tab-image { background: linear-gradient(135deg,#1C1C1C,#4A4A4A); }
+.tab-card:nth-child(4) .tab-image { background: linear-gradient(135deg,#4169E1,#E6E6FA); }
+.tab-card:nth-child(5) .tab-image { background: linear-gradient(135deg,#2F4F4F,#F0F8FF); }

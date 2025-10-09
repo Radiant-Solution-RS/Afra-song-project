@@ -1,4 +1,4 @@
-/* Tabs List Page Styles (extracted from inline) */
+
 .slider-container { position: relative; height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; margin: 20px 0; }
 .slider-track { position: absolute; height: 100%; background: linear-gradient(90deg,#0a0b0c,#0a0b0c); border-radius: 3px; left:10%; width:60%; transition: all .3s ease; }
 .slider-handles { position:absolute; top:-7px; width:100%; }

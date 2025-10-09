@@ -1,4 +1,4 @@
-/* Artist Detail Page Styles */
+
 .difficulty-banner { position:absolute; top:0; right:0; width:0; height:0; border-left:30px solid transparent; opacity:0; transition:opacity .3s ease; }
 .tab-card:hover .difficulty-banner { opacity:1; }
 .difficulty-banner.diff-1 { border-top:30px solid #22c55e; }

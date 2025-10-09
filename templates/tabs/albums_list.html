@@ -1,12 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{# Clean, single CSS block #}
+{# Clean, single CSS block (no per-page styles; using global style.css) #}
 {% block extra_css %}
 {{ block.super }}
-<style>
-/* Album page specific overrides (currently empty) */
-</style>
 {% endblock %}
 
 {% block content %}
