@@ -10,12 +10,12 @@
      
     <div class="bg-dark-card border border-dark-border rounded-xl p-8 mb-8">
         <div class="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-8">
-            <!-- Album Art -->
+            
             <div class="aspect-square bg-gradient-card-4 rounded-lg flex items-center justify-center text-5xl font-bold text-white/90">
                 {{ album.title|default:"DUMMY ALBUM"|upper|slice:":8" }}
             </div>
 
-            <!-- Album Info -->
+            
             <div>
                 <h1 class="text-4xl font-bold mb-2">{{ album.title|default:"Demo Album" }}</h1>
                 <p class="text-xl text-dark-text mb-2">

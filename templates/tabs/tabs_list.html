@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
 {% block content %}
 <main class="container mx-auto px-5 flex-1 py-10">
     <div class="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-10">
-        <!-- Sidebar -->
+        
         <aside class="flex flex-col gap-8">
             <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
                 <h3 class="text-xl font-semibold text-white mb-5">Show Categories</h3>
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </aside>
 
-        <!-- Main Section -->
+        
 <section class="tab-section">
     <div class="tabs-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {% for song in page_obj %}
@@ -147,4 +147,4 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </main>
 {% endblock %}
-```
+
