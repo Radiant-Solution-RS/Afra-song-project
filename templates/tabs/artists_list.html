@@ -10,39 +10,39 @@
 {% block content %}
 <main class="container mx-auto px-5 flex-1 py-10">
     <div class="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-10">
-        <aside class="flex flex-col gap-8">
-            <div class="sidebar-card">
-                <h3 class="sidebar-heading">Show Categories</h3>
-                <div class="sidebar-links">
-                    <a class="sidebar-link" href="{% url 'tabs:tabs_list' %}">
-                        <span>Songs</span>
-                        <span class="count">34</span>
+       <aside class="flex flex-col gap-8">
+            <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
+                <h3 class="text-xl font-semibold text-white mb-5">Show Categories</h3>
+                <div class="flex flex-col gap-3">
+                    <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:tabs_list' %}">
+                        <span class="text-white font-medium">Songs</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.songs }}</span>
                     </a>
-                    <a class="sidebar-link" href="{% url 'tabs:albums_list' %}">
-                        <span>Albums</span>
-                        <span class="count">16</span>
+                    <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:albums_list' %}">
+                        <span class="text-white font-medium">Albums</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.albums }}</span>
                     </a>
-                    <a class="sidebar-link" href="{% url 'tabs:artists_list' %}">
-                        <span>Artist</span>
-                        <span class="count">54</span>
+                    <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:artists_list' %}">
+                        <span class="text-white font-medium">Artists</span>
+                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.artists }}</span>
                     </a>
                 </div>
             </div>
 
-            <div class="sidebar-card">
-                <h3 class="sidebar-heading">Filters</h3>
-                <div class="filter-group">
-                    <label>Name (A - Z)</label>
-                    <select>
+            <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
+                <h3 class="text-xl font-semibold text-white mb-5">Filters</h3>
+                <div class="mb-6">
+                    <label class="block text-white font-medium mb-2.5">Name (A - Z)</label>
+                    <select class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
                         <option>A to Z</option>
                         <option>Z to A</option>
                         <option>Recently Added</option>
                         <option>Most Popular</option>
                     </select>
                 </div>
-                <div class="filter-group">
-                    <label>Tuning</label>
-                    <select>
+                <div class="mb-6">
+                    <label class="block text-white font-medium mb-2.5">Tuning</label>
+                    <select class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
                         <option>All Tunings</option>
                         <option>E Standard</option>
                         <option>Drop D</option>
@@ -51,6 +51,7 @@
                         <option>DADGAD</option>
                     </select>
                 </div>
+                
             </div>
         </aside>
 

@@ -503,8 +503,8 @@
 
 
 .sidebar-card {
-    background-color: rgba(74, 144, 226, 0.05);
-    border: 1px solid rgba(74, 144, 226, 0.2);
+    background-color: rgba(235, 235, 235, 0.05);
+    border: 2px solid white;
     border-radius: 12px;
     padding: 24px;
 }
@@ -979,7 +979,7 @@ body {
   color: #a855f7;
 }
 
-/* Tabber badges */
+
 .tabber-badge {
   display: flex;
   align-items: center;
@@ -1003,7 +1003,7 @@ body {
   color: white;
 }
 
-/* Buttons */
+
 .btn-dark {
   border: 1px solid #333;
   border-radius: 6px;
@@ -1026,7 +1026,7 @@ body {
   transition: all 0.4s ease;
 }
 
-/* Difficulty banner on image */
+
 .difficulty-banner {
   position: absolute;
   top: 10px;
@@ -1058,7 +1058,7 @@ body {
   opacity: 1;
 }
 
-/* Menu Bar */
+
 .song-menu {
   display: flex;
   gap: 1.5rem;
@@ -1100,3 +1100,6 @@ body {
     justify-content: center;
   }
 }
+
+
+
