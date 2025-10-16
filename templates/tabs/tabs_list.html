@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 {% load static %}
 
@@ -10,141 +9,186 @@
 {{ block.super }}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    let selectedMin = 1;
-    let selectedMax = 4;
+  const minRange = document.getElementById('minRange');
+  const maxRange = document.getElementById('maxRange');
+  const minValue = document.getElementById('minValue');
+  const maxValue = document.getElementById('maxValue');
+  const activeTrack = document.getElementById('activeTrack');
+  const minHandle = document.getElementById('minHandle');
+  const maxHandle = document.getElementById('maxHandle');
 
-    function updateSliderVisual() {
-        const handles = document.querySelectorAll('.slider-handle');
-        const track = document.querySelector('.slider-track');
-        handles.forEach(h => h.classList.remove('bg-blue-500', 'scale-110'));
-        for (let i = selectedMin; i <= selectedMax; i++) {
-            const h = handles[i - 1];
-            if (h) h.classList.add('bg-blue-500', 'scale-110');
-        }
-        const startPos = (selectedMin - 1) * 20 + 10;
-        const endPos = (selectedMax - 1) * 20 + 10;
-        track.style.left = startPos + '%';
-        track.style.width = (endPos - startPos) + '%';
+  function updateTrack() {
+    const min = parseInt(minRange.value);
+    const max = parseInt(maxRange.value);
+
+    // Prevent overlap
+    if (min >= max) {
+      if (event.target === minRange) {
+        minRange.value = max - 1;
+      } else {
+        maxRange.value = min + 1;
+      }
     }
-    document.querySelectorAll('.slider-handle').forEach(handle => {
-        handle.addEventListener('click', function() {
-            const value = Array.from(handle.parentNode.children).indexOf(handle) + 1;
-            if (value < selectedMin || value > selectedMax) {
-                if (value < selectedMin) selectedMin = value;
-                else selectedMax = value;
-            } else {
-                if (selectedMin === selectedMax) {
-                    selectedMin = 1; selectedMax = 4;
-                } else {
-                    if (value === selectedMin && selectedMin < selectedMax) selectedMin++;
-                    else if (value === selectedMax && selectedMax > selectedMin) selectedMax--;
-                }
-            }
-            updateSliderVisual();
-        });
-    });
-    updateSliderVisual();
+
+    const minVal = ((minRange.value - 1) / 3) * 100;
+    const maxVal = ((maxRange.value - 1) / 3) * 100;
+
+    // Update active track
+    activeTrack.style.left = minVal + '%';
+    activeTrack.style.right = (100 - maxVal) + '%';
+
+    // Update handle bubbles
+    minValue.textContent = minRange.value;
+    maxValue.textContent = maxRange.value;
+
+    minHandle.style.left = `calc(${minVal}% - 10px)`;
+    maxHandle.style.left = `calc(${maxVal}% - 10px)`;
+  }
+
+  minRange.addEventListener('input', updateTrack);
+  maxRange.addEventListener('input', updateTrack);
+  updateTrack();
 });
 </script>
 {% endblock %}
 
 {% block content %}
 <main class="container mx-auto px-5 flex-1 py-10">
-    <div class="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-10">
-        
-        <aside class="flex flex-col gap-8">
-            <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
-                <h3 class="text-xl font-semibold text-white mb-5">Show Categories</h3>
-                <div class="flex flex-col gap-3">
-                    <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:tabs_list' %}">
-                        <span class="text-white font-medium">Songs</span>
-                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.songs }}</span>
-                    </a>
-                    <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:albums_list' %}">
-                        <span class="text-white font-medium">Albums</span>
-                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.albums }}</span>
-                    </a>
-                    <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:artists_list' %}">
-                        <span class="text-white font-medium">Artists</span>
-                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.artists }}</span>
-                    </a>
+  <div class="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-10">
+
+    <!-- Sidebar -->
+    <aside class="flex flex-col gap-8">
+
+      <!-- Category Section -->
+      <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
+        <h3 class="text-xl font-semibold text-white mb-5">Show Categories</h3>
+        <div class="flex flex-col gap-3">
+          <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary"
+             href="{% url 'tabs:tabs_list' %}">
+            <span class="text-white font-medium">Songs</span>
+            <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.songs }}</span>
+          </a>
+          <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary"
+             href="{% url 'tabs:albums_list' %}">
+            <span class="text-white font-medium">Albums</span>
+            <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.albums }}</span>
+          </a>
+          <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary"
+             href="{% url 'tabs:artists_list' %}">
+            <span class="text-white font-medium">Artists</span>
+            <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.artists }}</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Filters Section -->
+      <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
+        <h3 class="text-xl font-semibold text-white mb-5">Filters</h3>
+
+        <!-- Name -->
+        <div class="mb-6">
+          <label class="block text-white font-medium mb-2.5">Name (A - Z)</label>
+          <select class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
+            <option>A to Z</option>
+            <option>Z to A</option>
+            <option>Recently Added</option>
+            <option>Most Popular</option>
+          </select>
+        </div>
+
+        <!-- Tuning -->
+        <div class="mb-6">
+          <label class="block text-white font-medium mb-2.5">Tuning</label>
+          <select class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
+            <option>All Tunings</option>
+            <option>E Standard</option>
+            <option>Drop D</option>
+            <option>Drop C</option>
+            <option>Drop B</option>
+            <option>DADGAD</option>
+          </select>
+        </div>
+
+        <!-- ✅ Difficulty Slider -->
+        <div class="mb-6 last:mb-0">
+          <label class="block text-white font-medium mb-2.5">Difficulty</label>
+          <div class="difficulty-slider mt-4 relative w-full mx-auto">
+            <div class="slider-container relative h-2 bg-gray-700 rounded-full">
+              <div id="activeTrack" class="absolute top-0 left-1/4 right-1/4 h-2 bg-primary rounded-full"></div>
+
+              <!-- Range Inputs -->
+              <input id="minRange" type="range" min="1" max="4" value="1" step="1"
+                class="absolute w-full h-2 opacity-0 cursor-pointer z-10">
+              <input id="maxRange" type="range" min="1" max="4" value="4" step="1"
+                class="absolute w-full h-2 opacity-0 cursor-pointer z-10">
+
+              <!-- Handles -->
+              <div id="minHandle" class="absolute top-[-6px] left-0">
+                <div class="slider-bubble absolute -top-10 left-1/2 -translate-x-1/2 bg-primary text-white text-sm font-semibold px-2 py-1 rounded-lg">
+                  <span id="minValue">1</span>
+                  <div class="arrow-down absolute bottom-[-4px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-primary"></div>
                 </div>
+                <div class="handle-dot w-5 h-5 bg-primary rounded-full"></div>
+              </div>
+
+              <div id="maxHandle" class="absolute top-[-6px] left-full">
+                <div class="slider-bubble absolute -top-10 left-1/2 -translate-x-1/2 bg-primary text-white text-sm font-semibold px-2 py-1 rounded-lg">
+                  <span id="maxValue">4</span>
+                  <div class="arrow-down absolute bottom-[-4px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-primary"></div>
+                </div>
+                <div class="handle-dot w-5 h-5 bg-primary rounded-full"></div>
+              </div>
             </div>
 
-            <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
-                <h3 class="text-xl font-semibold text-white mb-5">Filters</h3>
-                <div class="mb-6">
-                    <label class="block text-white font-medium mb-2.5">Name (A - Z)</label>
-                    <select class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
-                        <option>A to Z</option>
-                        <option>Z to A</option>
-                        <option>Recently Added</option>
-                        <option>Most Popular</option>
-                    </select>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-white font-medium mb-2.5">Tuning</label>
-                    <select class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
-                        <option>All Tunings</option>
-                        <option>E Standard</option>
-                        <option>Drop D</option>
-                        <option>Drop C</option>
-                        <option>Drop B</option>
-                        <option>DADGAD</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-white font-medium mb-2.5">Difficulty</label>
-                    <div class="slider-container">
-                        <div class="slider-track"></div>
-                        <div class="slider-handles">
-                            <div class="slider-handle"></div>
-                            <div class="slider-handle"></div>
-                            <div class="slider-handle"></div>
-                            <div class="slider-handle"></div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Scale numbers -->
+            <div class="flex justify-between text-gray-400 text-xs mt-3 px-1">
+              <span>1</span>
+              <span>2</span>
+              <span>3</span>
+              <span>4</span>
             </div>
-        </aside>
+          </div>
+        </div>
+      </div>
+    </aside>
 
-        
-<section class="tab-section">
-    <div class="tabs-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+    <!-- Songs Section -->
+    <section class="tab-section">
+      <div class="tabs-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {% for song in page_obj %}
-    <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
-      <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
-        <img src="{{ song.artist.artist_img }}" alt="{{ song.artist.name }}" class="w-full h-full object-cover">
+          <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col">
+            <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
+              <img src="{{ song.artist.artist_img }}" alt="{{ song.artist.name }}" class="w-full h-full object-cover">
+            </div>
+            <div class="tab-info p-4 flex flex-col justify-between flex-grow">
+              <div>
+                <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
+                  <a href="{% url 'tabs:song_detail' artist_slug=song.artist.name_cleaned album_slug=song.album.title_cleaned song_slug=song.title_cleaned %}">
+                    {{ song.title }}
+                  </a>
+                </h3>
+                <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
+                  <span class="truncate max-w-[120px]" title="Album">{% if song.album %}{{ song.album.title }}{% else %}No Album{% endif %}</span>
+                  <span class="text-xs text-gray-500" title="Date Added">{{ song.date_added|date:'Y-m-d' }}</span>
+                </div>
+              </div>
+              <div class="tab-footer flex justify-between items-center">
+                <span class="text-gray-400 text-xs flex flex-col gap-0.5">
+                  {% if song.tuning %}<span title="Tuning">{{ song.tuning }}</span>{% endif %}
+                  {% if song.difficulty %}<span title="Difficulty">Difficulty: {{ song.difficulty }}</span>{% endif %}
+                  {% if song.riffs %}<span title="Riffs">Riffs: {{ song.riffs }}</span>{% endif %}
+                </span>
+                <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-xs font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]">
+                  {% if song.artist_verified %}Verified{% else %}Unverified{% endif %}
+                </span>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <p class="text-white">No songs found.</p>
+        {% endfor %}
       </div>
-      <div class="tab-info p-4 flex flex-col justify-between flex-grow">
-        <div>
-          <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
-            <a href="{% url 'tabs:song_detail' artist_slug=song.artist.name_cleaned album_slug=song.album.title_cleaned song_slug=song.title_cleaned %}">{{ song.title }}</a>
-          </h3>
-                    <div class="tab-footer flex justify-between items-center text-sm text-gray-400 mb-2">
-                        <span class="truncate max-w-[120px]" title="Album">{% if song.album %}{{ song.album.title }}{% else %}No Album{% endif %}</span>
-                        <span class="text-xs text-gray-500" title="Date Added">{{ song.date_added|date:'Y-m-d' }}</span>
-                    </div>
-        </div>
-        <div class="tab-footer flex justify-between items-center">
-                    <span class="text-gray-400 text-xs flex flex-col gap-0.5">
-                        {% if song.tuning %}<span title="Tuning">{{ song.tuning }}</span>{% endif %}
-                        {% if song.difficulty %}<span title="Difficulty">Difficulty: {{ song.difficulty }}</span>{% endif %}
-                        {% if song.riffs %}<span title="Riffs">Riffs: {{ song.riffs }}</span>{% endif %}
-                    </span>
-                    <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-xs font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]" title="Artist Verified?">
-                        {% if song.artist_verified %}Verified{% else %}Unverified{% endif %}
-                    </span>
-        </div>
-      </div>
-    </div>
-    {% empty %}
-    <p class="text-white">No songs found.</p>
-    {% endfor %}
+    </section>
   </div>
-</section>
-</section>
-    </div>
 </main>
 {% endblock %}
-
