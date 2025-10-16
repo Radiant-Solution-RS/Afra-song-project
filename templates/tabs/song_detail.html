@@ -5,137 +5,117 @@
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 <div class="container mx-auto px-5 py-10">
-    <div class="max-w-4xl mx-auto">
+  <div class="max-w-4xl mx-auto">
+    <div class="bg-dark-card border border-dark-border rounded-xl p-8 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-8">
+
         
-        <div class="bg-dark-card border border-dark-border rounded-xl p-8 mb-8">
-            <div class="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-8">
-
-                
-                <div class="relative aspect-square rounded-lg overflow-hidden">
-                    {% if song.album.image %}
-                    <img src="{{ song.album.image.url }}" alt="{{ song.title }}" class="song-image">
-                    {% else %}
-                    <div class="song-image-fallback flex items-center justify-center text-5xl font-bold text-white/70">
-                        {{ song.artist.name|upper|slice:":8" }}
-                    </div>
-                    {% endif %}
-
-                    {% if song.difficulty %}
-                    <div class="difficulty-banner">Difficulty: {{ song.difficulty }}</div>
-                    {% endif %}
-
-                    
-                    <div class="song-overlay" id="songOverlay">
-                        <div class="song-menu">
-                            <div class="menu-item active" data-tab="description">Description</div>
-                            <div class="menu-item" data-tab="changelog">Changelog</div>
-                        </div>
-                        <div id="contentArea">
-                            {% if song.description %}
-                                <p>{{ song.description }}</p>
-                            {% else %}
-                                <p>No description available.</p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div>
-                    <h1 class="text-4xl font-bold mb-2">
-                        {{ song.title }}
-                        {% if song.artist_verified %}
-                        <span class="text-green-400 text-2xl align-middle">✔</span>
-                        {% endif %}
-                    </h1>
-                    <p class="text-xl text-dark-text mb-2">by {{ song.artist.name }}</p>
-                    <p class="text-lg text-gray-400 mb-4">from {{ song.album.title }} ({{ song.album.release_year }})</p>
-
-                   
-                    <div class="flex flex-wrap gap-4 mb-6">
-                        <span class="info-tag">{{ song.tuning|default:"E Standard" }}</span>
-                    </div>
-
-                    {% if song.tabber.exists %}
-                    <div class="mb-4">
-                        <p class="text-sm text-gray-400 mb-2">Added {{ song.date_added|date:"F d, Y" }}</p>
-                        <h3 class="text-lg font-semibold mb-2">Tabber{{ song.tabber.count|pluralize }}:</h3>
-                        <div class="flex flex-wrap gap-2">
-                            {% for tabber in song.tabber.all %}
-                            <div class="tabber-badge">
-                                <div class="tabber-avatar">{{ tabber.name|first|upper }}</div>
-                                <span class="text-sm">{{ tabber.name }}</span>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% else %}
-                    <div class="mb-2">
-                        <p class="text-sm text-gray-400 mb-2">Added {{ song.date_added|date:"F d, Y" }}</p>
-                    </div>
-                    {% endif %}
-
-                    <div class="flex gap-4">
-                        {% if song.tab_files %}
-                        <a href="{{ song.tab_files }}" target="_blank" class="btn-dark">
-                            Download Tab
-                        </a>
-                        {% endif %}
-                        {% if song.cover_video %}
-                        <a href="{{ song.cover_video }}" target="_blank" class="btn-dark">
-                            Watch Cover
-                        </a>
-                        {% endif %}
-                    </div>
-                </div>
+        <div class="relative aspect-square rounded-lg overflow-hidden group">
+          {% if song.album.image %}
+            <img src="{{ song.album.image.url }}" alt="{{ song.title }}"
+              class="song-image transition-transform duration-300 group-hover:scale-105">
+          {% else %}
+            <div class="song-image-fallback flex items-center justify-center text-5xl font-bold text-white/70">
+              {{ song.artist.name|upper|slice:":8" }}
             </div>
+          {% endif %}
+
+          {% if song.difficulty %}
+            <div class="difficulty-banner">Difficulty: {{ song.difficulty }}</div>
+          {% endif %}
+
+      
+          <div
+            class="song-overlay absolute inset-0 bg-black/85 text-white opacity-0 scale-90 
+                   group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 
+                   flex flex-col justify-center items-center text-center p-4 rounded-lg shadow-lg">
+            
+            
+            <div class="song-menu flex gap-4 mb-2 justify-center">
+              <div class="menu-item active cursor-pointer font-semibold" data-tab="description">Description</div>
+              <div class="menu-item cursor-pointer font-semibold" data-tab="changelog">Changelog</div>
+            </div>
+
+           
+            <div id="contentArea"
+                 class="text-sm text-gray-200 mt-12 max-h-32 overflow-y-auto transition-all duration-300">
+              {% if song.description %}
+                <p>{{ song.description }}</p>
+              {% else %}
+                <p>No description available.</p>
+              {% endif %}
+            </div>
+          </div>
         </div>
 
       
-        {% if related_songs %}
-        <div class="bg-dark-card border border-dark-border rounded-xl p-6">
-            <h2 class="text-2xl font-semibold mb-3">More from {{ song.album.title }}</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {% for related_song in related_songs %}
-                <div class="bg-dark-secondary border border-dark-border rounded-lg p-4 hover:bg-dark-cardHover transition-colors">
-                    <h3 class="font-semibold mb-1">
-                        <a href="{% url 'tabs:song_detail' related_song.artist.name_cleaned related_song.album.title_cleaned related_song.title_cleaned %}" 
-                           class="text-white hover:text-dark-light">
-                            {{ related_song.title }}
-                        </a>
-                    </h3>
-                    <p class="text-sm text-dark-text">{{ related_song.tuning|default:"E Standard" }}</p>
-                    {% if related_song.difficulty %}
-                    <p class="text-xs text-gray-400">Difficulty: {{ related_song.difficulty }}/4</p>
-                    {% endif %}
+        <div>
+          <div class="flex justify-between items-start mb-4 relative">
+            <div>
+              <h1 class="text-4xl font-bold mb-2">
+                {{ song.title }}
+                {% if song.artist_verified %}
+                  <span class="text-green-400 text-2xl align-middle">✔</span>
+                {% endif %}
+              </h1>
+              <p class="text-xl text-dark-text mb-2">by {{ song.artist.name }}</p>
+              <p class="text-lg text-gray-400">from {{ song.album.title }} ({{ song.album.release_year }})</p>
+            </div>
+
+          
+            <div class="right-section text-right flex flex-col items-end justify-center absolute top-1/2 right-0 transform -translate-y-1/2">
+              
+              {% if song.tab_files %}
+                <a href="{{ song.tab_files }}" target="_blank" class="btn-dark-small ">Download Tab</a>
+              {% endif %}
+            </div>
+          </div>
+
+          {% if song.tabber.exists %}
+            <div class="mb-4 mt-10">
+              <p class="text-sm text-gray-400 mb-2">Added {{ song.date_added|date:"F d, Y" }}</p>
+              <h3 class="text-lg font-semibold mb-2">Tabber{{ song.tabber.count|pluralize }}:</h3>
+              <div class="flex flex-wrap gap-2">
+                {% for tabber in song.tabber.all %}
+                <div class="tabber-badge">
+                  <div class="tabber-avatar">{{ tabber.name|first|upper }}</div>
+                  <span class="text-sm">{{ tabber.name }}</span>
                 </div>
                 {% endfor %}
+              </div>
             </div>
+          {% else %}
+            <div class="mb-2">
+              <p class="text-sm text-gray-400 mb-2">Added {{ song.date_added|date:"F d, Y" }}</p>
+            </div>
+          {% endif %}
         </div>
-        {% endif %}
+      </div>
     </div>
+  </div>
 </div>
-
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const menuItems = document.querySelectorAll(".menu-item");
   const contentArea = document.getElementById("contentArea");
 
-  const descriptionContent = contentArea.innerHTML;
-  const changelogContent = `<p>{{ song.changelog|default:'No changelog available.' }}</p>`;
+  const descriptionHTML = `<p>{{ song.description|default:'No description available.' }}</p>`;
+  const changelogHTML = `<p>{{ song.changelog|default:'No changelog available.' }}</p>`;
 
   menuItems.forEach(item => {
     item.addEventListener("click", () => {
       menuItems.forEach(i => i.classList.remove("active"));
       item.classList.add("active");
-      const currentTab = item.dataset.tab;
 
-      if (currentTab === "description") {
-        contentArea.innerHTML = descriptionContent;
-      } else {
-        contentArea.innerHTML = changelogContent;
-      }
+      
+      contentArea.style.opacity = "0";
+      contentArea.style.transform = "translateY(-10px)";
+      setTimeout(() => {
+        contentArea.innerHTML = item.dataset.tab === "description" ? descriptionHTML : changelogHTML;
+        contentArea.style.transform = "translateY(0)";
+        contentArea.style.opacity = "1";
+      }, 200);
     });
   });
 });

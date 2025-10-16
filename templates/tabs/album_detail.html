@@ -2,121 +2,94 @@
 {% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 <div class="container mx-auto px-5 py-10">
-    <div class="max-w-6xl mx-auto">
-
-```
-     
+  <div class="max-w-6xl mx-auto">
     <div class="bg-dark-card border border-dark-border rounded-xl p-8 mb-8">
-        <div class="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-8">
-            
-            <div class="aspect-square bg-gradient-card-4 rounded-lg flex items-center justify-center text-5xl font-bold text-white/90">
-                {{ album.title|default:"DUMMY ALBUM"|upper|slice:":8" }}
-            </div>
-
-            
-            <div>
-                <h1 class="text-4xl font-bold mb-2">{{ album.title|default:"Demo Album" }}</h1>
-                <p class="text-xl text-dark-text mb-2">
-                    by 
-                    <a href="{% url 'tabs:artist_detail' album.artist.name_cleaned %}" class="text-dark-light hover:text-white">
-                        {{ album.artist.name|default:"Unknown Artist" }}
-                    </a>
-                </p>
-                <p class="text-lg text-gray-400 mb-4">Released {{ album.release_year|default:"2025" }}</p>
-
-                <div class="flex flex-wrap gap-4 mb-6">
-                    <div class="bg-dark-light/20 border border-dark-light rounded-md px-4 py-2">
-                        <div class="text-2xl font-bold">{{ songs|length|default:5 }}</div>
-                        <div class="text-sm text-dark-text">Song{{ songs|length|pluralize }}</div>
-                    </div>
-                </div>
-
-                <a href="#" class="border border-dark-border rounded-md text-white py-2 px-6 font-medium transition-colors duration-300 hover:bg-dark-cardHover">
-                    Watch Playlist
-                </a>
-            </div>
+      <div class="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-8">
+        
+        <!-- Album Image with White Glow -->
+        <div class="aspect-square bg-gradient-card-4 rounded-lg flex items-center justify-center 
+                    text-5xl font-bold text-white/90 shadow-lg transition-all duration-500 
+                    hover:shadow-[0_0_40px_12px_rgba(255,255,255,0.8)] hover:scale-105">
+          {{ album.title|default:"DUMMY ALBUM"|upper|slice:":8" }}
         </div>
+
+        <!-- Album Info -->
+        <div>
+          <h1 class="text-4xl font-bold mb-2">{{ album.title|default:"Demo Album" }}</h1>
+          <p class="text-xl text-dark-text mb-2">
+            by 
+            <a href="{% url 'tabs:artist_detail' album.artist.name_cleaned %}" 
+               class="text-dark-light hover:text-white">
+              {{ album.artist.name|default:"Unknown Artist" }}
+            </a>
+          </p>
+          <p class="text-lg text-gray-400 mb-4">Released {{ album.release_year|default:"2025" }}</p>
+
+          <div class="flex flex-wrap gap-4 mb-6">
+            <div class="bg-dark-light/20 border border-dark-light rounded-md px-4 py-2">
+              <div class="text-2xl font-bold">{{ songs|length|default:5 }}</div>
+              <div class="text-sm text-dark-text">Song{{ songs|length|pluralize }}</div>
+            </div>
+          </div>
+
+          <a href="#" class="border border-dark-border rounded-md text-white py-2 px-6 font-medium 
+             transition-colors duration-300 hover:bg-dark-cardHover">
+            Watch Playlist
+          </a>
+        </div>
+      </div>
     </div>
 
-  
-    <div class="bg-dark-card border border-dark-border rounded-xl p-6 mb-8">
-        <h2 class="text-2xl font-semibold mb-6">Related Albums</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-            {% if related_albums %}
-                {% for rel in related_albums %}
-                    <div class="bg-dark-secondary rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <a href="{% url 'tabs:album_detail' artist_slug=rel.artist.name_cleaned album_slug=rel.title_cleaned %}">
-                            <div class="aspect-[4/3] bg-gradient-to-br from-dark-light to-dark-lighter flex items-center justify-center text-3xl font-bold text-white/70">
-                                {{ rel.title|upper|slice:":6" }}
-                            </div>
-                            <div class="p-3">
-                                <h3 class="text-lg font-semibold text-white truncate">{{ rel.title }}</h3>
-                                <p class="text-sm text-gray-400">{{ rel.artist.name }}</p>
-                            </div>
-                        </a>
-                    </div>
-                {% endfor %}
-            {% else %}
-                {% for i in "12345" %}
-                    <div class="bg-dark-secondary rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <div class="aspect-[4/3] bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center text-3xl font-bold text-white/70">
-                            ALBUM {{ i }}
-                        </div>
-                        <div class="p-3">
-                            <h3 class="text-lg font-semibold text-white truncate">Demo Album {{ i }}</h3>
-                            <p class="text-sm text-gray-400">Artist {{ i }}</p>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-    </div>
-
-   
+    <!-- Tracklist -->
     <div class="bg-dark-card border border-dark-border rounded-xl p-6">
-        <h2 class="text-2xl font-semibold mb-6">Tracklist</h2>
-        <div class="space-y-2">
-            {% if songs %}
-                {% for song in songs %}
-                    <div class="flex items-center justify-between p-4 bg-dark-secondary border border-dark-border rounded-lg hover:bg-dark-cardHover transition-colors group">
-                        <div class="flex items-center gap-4">
-                            <div class="w-8 text-center text-gray-400 font-mono">{{ song.track_num|default:forloop.counter }}</div>
-                            <div>
-                                <h3 class="font-semibold">
-                                    <a href="{% url 'tabs:song_detail' song.artist.name_cleaned song.album.title_cleaned song.title_cleaned %}" class="text-white hover:text-dark-light">
-                                        {{ song.title|default:"Demo Song" }}
-                                    </a>
-                                </h3>
-                                <p class="text-sm text-dark-text">{{ song.duration|default:"3:45" }}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="bg-dark-light/20 border border-dark-light rounded text-xs px-2 py-1">{{ song.tuning|default:"E Standard" }}</span>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                {% for i in "12345" %}
-                    <div class="flex items-center justify-between p-4 bg-dark-secondary border border-dark-border rounded-lg hover:bg-dark-cardHover transition-colors group">
-                        <div class="flex items-center gap-4">
-                            <div class="w-8 text-center text-gray-400 font-mono">{{ i }}</div>
-                            <div>
-                                <h3 class="font-semibold text-white">Demo Song {{ i }}</h3>
-                                <p class="text-sm text-dark-text">3:4{{ i }}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="bg-dark-light/20 border border-dark-light rounded text-xs px-2 py-1">E Standard</span>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
+      <h2 class="text-2xl font-semibold mb-6">Tracklist</h2>
+      <div class="space-y-2">
+        {% if songs %}
+          {% for song in songs %}
+            <div class="flex items-center justify-between p-4 bg-dark-secondary border border-dark-border 
+                        rounded-lg hover:bg-dark-cardHover transition-colors group">
+              <div class="flex items-center gap-4">
+                <div class="w-8 text-center text-gray-400 font-mono">{{ song.track_num|default:forloop.counter }}</div>
+                <div>
+                  <h3 class="font-semibold">
+                    <a href="{% url 'tabs:song_detail' song.artist.name_cleaned song.album.title_cleaned song.title_cleaned %}" 
+                       class="text-white hover:text-dark-light">
+                      {{ song.title|default:"Demo Song" }}
+                    </a>
+                  </h3>
+                  <p class="text-sm text-dark-text">{{ song.duration|default:"3:45" }}</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="bg-dark-light/20 border border-dark-light rounded text-xs px-2 py-1">
+                  {{ song.tuning|default:"E Standard" }}
+                </span>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          {% for i in "12345" %}
+            <div class="flex items-center justify-between p-4 bg-dark-secondary border border-dark-border 
+                        rounded-lg hover:bg-dark-cardHover transition-colors group">
+              <div class="flex items-center gap-4">
+                <div class="w-8 text-center text-gray-400 font-mono">{{ i }}</div>
+                <div>
+                  <h3 class="font-semibold text-white">Demo Song {{ i }}</h3>
+                  <p class="text-sm text-dark-text">3:4{{ i }}</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="bg-dark-light/20 border border-dark-light rounded text-xs px-2 py-1">E Standard</span>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
     </div>
+  </div>
 </div>
 
-
-</div>
 {% endblock %}
