@@ -4,86 +4,94 @@
 {% block body_class %}page-artists{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
 {% endblock %}
 
 {% block content %}
-<main class="container mx-auto px-5 flex-1 py-10">
-    <div class="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-10">
-       <aside class="flex flex-col gap-8">
-            <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
-                <h3 class="text-xl font-semibold text-white mb-5">Show Categories</h3>
-                <div class="flex flex-col gap-3">
-                    <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:tabs_list' %}">
-                        <span class="text-white font-medium">Songs</span>
-                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.songs }}</span>
-                    </a>
-                    <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:albums_list' %}">
-                        <span class="text-white font-medium">Albums</span>
-                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.albums }}</span>
-                    </a>
-                    <a class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary" href="{% url 'tabs:artists_list' %}">
-                        <span class="text-white font-medium">Artists</span>
-                        <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.artists }}</span>
-                    </a>
-                </div>
-            </div>
+<main class="artists-page">
+  <div class="layout-grid">
 
-            <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
-                <h3 class="text-xl font-semibold text-white mb-5">Filters</h3>
-                <div class="mb-6">
-                    <label class="block text-white font-medium mb-2.5">Name (A - Z)</label>
-                    <select class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
-                        <option>A to Z</option>
-                        <option>Z to A</option>
-                        <option>Recently Added</option>
-                        <option>Most Popular</option>
-                    </select>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-white font-medium mb-2.5">Tuning</label>
-                    <select class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
-                        <option>All Tunings</option>
-                        <option>E Standard</option>
-                        <option>Drop D</option>
-                        <option>Drop C</option>
-                        <option>Drop B</option>
-                        <option>DADGAD</option>
-                    </select>
-                </div>
-                
-            </div>
-        </aside>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <!-- Categories -->
+      <div class="sidebar-box">
+        <h3>Show Categories</h3>
+        <div class="category-list">
+          <a href="{% url 'tabs:tabs_list' %}" class="category-item">
+            <span>Songs</span>
+            <span class="count">{{ counts.songs }}</span>
+          </a>
+          <a href="{% url 'tabs:albums_list' %}" class="category-item">
+            <span>Albums</span>
+            <span class="count">{{ counts.albums }}</span>
+          </a>
+          <a href="{% url 'tabs:artists_list' %}" class="category-item">
+            <span>Artists</span>
+            <span class="count">{{ counts.artists }}</span>
+          </a>
+        </div>
+      </div>
 
-        <section class="tab-section">
-            <div class="tabs-container">
-                {% for artist in page_obj %}
-                <div class="tab-card">
-                    <div class="tab-image">
-                        <img src="{{ artist.artist_img }}" alt="{{ artist.name }}">
-                    </div>
-                    <div class="tab-info">
-                        <h3 class="tab-title">
-                            <a href="{% url 'tabs:artist_detail' artist_slug=artist.name_cleaned %}">{{ artist.name }}</a>
-                        </h3>
-                        <div class="tab-meta">
-                            <span>{{ artist.songs.count }} Song{{ artist.songs.count|pluralize }}</span>
-                        </div>
-                        <div class="tab-footer">
-                            <span>Tabs: {{ artist.num_tabs }}</span>
-                            <span class="view-btn" title="Artist page">View</span>
-                        </div>
-                    </div>
-                </div>
-                {% empty %}
-                <p class="no-artists">No artists found.</p>
-                {% endfor %}
-            </div>
-        </section>
-    </div>
+      <!-- Filters -->
+      <div class="sidebar-box">
+        <h3>Filters</h3>
+        <label for="sortSelect">Sort by</label>
+        <select id="sortSelect" class="filter-select">
+          <option value="">Default</option>
+          <option value="asc" {% if request.GET.sort == 'asc' %}selected{% endif %}>A to Z</option>
+          <option value="desc" {% if request.GET.sort == 'desc' %}selected{% endif %}>Z to A</option>
+          <option value="recent" {% if request.GET.sort == 'recent' %}selected{% endif %}>Recently Added</option>
+          <option value="popular" {% if request.GET.sort == 'popular' %}selected{% endif %}>Most Popular</option>
+        </select>
+      </div>
+    </aside>
 
-    <div class="load-more">
-        <button class="load-btn">Load More</button>
-    </div>
+    <!-- Artist Cards -->
+    <section class="artists-grid">
+      {% for artist in page_obj %}
+      <div class="artist-card">
+        <div class="artist-image">
+          {% if artist.artist_img %}
+          <img src="{{ artist.artist_img }}" alt="{{ artist.name }}">
+          {% else %}
+          <div class="artist-placeholder">{{ artist.name|upper|slice:":4" }}</div>
+          {% endif %}
+        </div>
+
+        <div class="artist-info">
+          <h3>
+            <a href="{% url 'tabs:artist_detail' artist_slug=artist.name_cleaned %}">
+              {{ artist.name }}
+            </a>
+          </h3>
+          <div class="artist-stats">
+            <span> Tabs: {{ artist.num_tabs }}</span>
+            {% if artist.album_count %}
+            <span> Albums: {{ artist.album_count }}</span>
+            {% endif %}
+            {% if artist.date_added %}
+            <span>🕒 Added: {{ artist.date_added|date:"M d, Y" }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="no-artists">No artists found.</p>
+      {% endfor %}
+    </section>
+  </div>
 </main>
+
+<!-- JS: Auto Filter -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const sortSelect = document.getElementById('sortSelect');
+  sortSelect.addEventListener('change', () => {
+    const params = new URLSearchParams(window.location.search);
+    const sort = sortSelect.value;
+    if (sort) params.set('sort', sort); else params.delete('sort');
+    window.location.search = params.toString();
+  });
+});
+</script>
 {% endblock %}

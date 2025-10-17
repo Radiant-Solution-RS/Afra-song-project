@@ -2,87 +2,79 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
 
-<div class="container mx-auto px-5 py-10">
-  <div class="max-w-6xl mx-auto">
-    <div class="bg-dark-card border border-dark-border rounded-xl p-8 mb-8">
-      <div class="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-8">
+<div class="album-container">
+  <div class="album-wrapper">
+    <div class="album-card">
+      <div class="album-grid">
         
-        <!-- Album Image with White Glow -->
-        <div class="aspect-square bg-gradient-card-4 rounded-lg flex items-center justify-center 
-                    text-5xl font-bold text-white/90 shadow-lg transition-all duration-500 
-                    hover:shadow-[0_0_40px_12px_rgba(255,255,255,0.8)] hover:scale-105">
-          {{ album.title|default:"DUMMY ALBUM"|upper|slice:":8" }}
+        <!-- Album Image -->
+       <div class="album-image">
+          {% if album.album_img %}
+            <img src="{{ album.album_img }}" alt="{{ album.title }} album art" onerror="this.src='{% static 'img/placeholder_album.jpg' %}'">
+          {% else %}
+            <img src="{% static 'img/placeholder_album.jpg' %}" alt="No album art">
+          {% endif %}
         </div>
 
         <!-- Album Info -->
-        <div>
-          <h1 class="text-4xl font-bold mb-2">{{ album.title|default:"Demo Album" }}</h1>
-          <p class="text-xl text-dark-text mb-2">
+        <div class="album-info">
+          <h1>{{ album.title|default:"Demo Album" }}</h1>
+          <p class="artist-line">
             by 
-            <a href="{% url 'tabs:artist_detail' album.artist.name_cleaned %}" 
-               class="text-dark-light hover:text-white">
+            <a href="{% url 'tabs:artist_detail' album.artist.name_cleaned %}">
               {{ album.artist.name|default:"Unknown Artist" }}
             </a>
           </p>
-          <p class="text-lg text-gray-400 mb-4">Released {{ album.release_year|default:"2025" }}</p>
+          <p class="release-year">
+            Released {{ album.release_year|default:"2025" }}
+          </p>
 
-          <div class="flex flex-wrap gap-4 mb-6">
-            <div class="bg-dark-light/20 border border-dark-light rounded-md px-4 py-2">
-              <div class="text-2xl font-bold">{{ songs|length|default:5 }}</div>
-              <div class="text-sm text-dark-text">Song{{ songs|length|pluralize }}</div>
-            </div>
-          </div>
+          <p class="song-count">
+            {{ songs|length|default:5 }} Tab{{ songs|length|pluralize }}
+          </p>
 
-          <a href="#" class="border border-dark-border rounded-md text-white py-2 px-6 font-medium 
-             transition-colors duration-300 hover:bg-dark-cardHover">
-            Watch Playlist
-          </a>
+          <a href="#" class="watch-btn">Watch Playlist</a>
         </div>
       </div>
     </div>
 
     <!-- Tracklist -->
-    <div class="bg-dark-card border border-dark-border rounded-xl p-6">
-      <h2 class="text-2xl font-semibold mb-6">Tracklist</h2>
-      <div class="space-y-2">
+    <div class="tracklist-card">
+      <h2>Tracklist</h2>
+      <div class="tracklist">
         {% if songs %}
           {% for song in songs %}
-            <div class="flex items-center justify-between p-4 bg-dark-secondary border border-dark-border 
-                        rounded-lg hover:bg-dark-cardHover transition-colors group">
-              <div class="flex items-center gap-4">
-                <div class="w-8 text-center text-gray-400 font-mono">{{ song.track_num|default:forloop.counter }}</div>
+            <div class="track-item">
+              <div class="track-info">
+                <div class="track-num">{{ song.track_num|default:forloop.counter }}</div>
                 <div>
-                  <h3 class="font-semibold">
-                    <a href="{% url 'tabs:song_detail' song.artist.name_cleaned song.album.title_cleaned song.title_cleaned %}" 
-                       class="text-white hover:text-dark-light">
+                  <h3>
+                    <a href="{% url 'tabs:song_detail' song.artist.name_cleaned song.album.title_cleaned song.title_cleaned %}">
                       {{ song.title|default:"Demo Song" }}
                     </a>
                   </h3>
-                  <p class="text-sm text-dark-text">{{ song.duration|default:"3:45" }}</p>
+                  <p class="duration">{{ song.duration|default:"3:45" }}</p>
                 </div>
               </div>
-              <div class="flex items-center gap-2">
-                <span class="bg-dark-light/20 border border-dark-light rounded text-xs px-2 py-1">
-                  {{ song.tuning|default:"E Standard" }}
-                </span>
+              <div class="track-meta">
+                <span class="tuning">{{ song.tuning|default:"E Standard" }}</span>
               </div>
             </div>
           {% endfor %}
         {% else %}
           {% for i in "12345" %}
-            <div class="flex items-center justify-between p-4 bg-dark-secondary border border-dark-border 
-                        rounded-lg hover:bg-dark-cardHover transition-colors group">
-              <div class="flex items-center gap-4">
-                <div class="w-8 text-center text-gray-400 font-mono">{{ i }}</div>
+            <div class="track-item">
+              <div class="track-info">
+                <div class="track-num">{{ i }}</div>
                 <div>
-                  <h3 class="font-semibold text-white">Demo Song {{ i }}</h3>
-                  <p class="text-sm text-dark-text">3:4{{ i }}</p>
+                  <h3>Demo Song {{ i }}</h3>
+                  <p class="duration">3:4{{ i }}</p>
                 </div>
               </div>
-              <div class="flex items-center gap-2">
-                <span class="bg-dark-light/20 border border-dark-light rounded text-xs px-2 py-1">E Standard</span>
+              <div class="track-meta">
+                <span class="tuning">E Standard</span>
               </div>
             </div>
           {% endfor %}
@@ -91,5 +83,4 @@
     </div>
   </div>
 </div>
-
 {% endblock %}

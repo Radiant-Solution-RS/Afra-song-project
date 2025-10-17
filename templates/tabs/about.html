@@ -8,48 +8,56 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
 {% endblock %}
 
 {% block content %}
-<main class="about-wrapper container mx-auto">
-    <div class="breadcrumbs">🏠 • • •</div>
-    <h1 class="page-title">About</h1>
-    <p class="intro">Lorem ipsum dolor sit amet consectetur. Euismod in nec condimentum vel tristique elementum egestas. Cras eu cras in. Euismod in nec condimentum vel tristique elementum egestas. Cras eu cras in Lorem ipsum dolor sit amet consectetur. Euismod in nec condimentum vel.</p>
+<main class="about-wrapper container mx-auto py-10">
+  <div class="breadcrumbs text-gray-400 mb-4">🏠 / About</div>
+  <h1 class="page-title text-4xl font-bold text-white mb-6">About</h1>
+  <p class="intro text-gray-300 leading-relaxed">
+    Husbab ipsum dolor sit amet consectetur. Euismod in nec condimentum vel tristique elementum egestas.
+    Cras eu cras in. Euismod in nec condimentum vel tristique elementum egestas.
+  </p>
 </main>
 
-<section class="donors-section mx-auto">
-    <h2 class="section-title">Great Donors</h2>
-    <div class="donor-grid">
-        {% for i in "0123456789" %}
-            <div class="donor-avatar overflow-hidden">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23{{ i }}{{ i }}{{ i }}'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='%23fff' font-size='12'%3EUser%3C/text%3E%3C/svg%3E" alt="Donor" />
-            </div>
-        {% endfor %}
-        <div class="more-donors">+345</div>
+<section class="donors-section container mx-auto py-10">
+  <h2 class="section-title text-2xl font-semibold text-white mb-6">Great Donors</h2>
+  <div class="donor-grid grid grid-cols-3 sm:grid-cols-5 md:grid-cols-8 gap-4">
+    {% for i in "0123456789" %}
+    <div class="donor-avatar w-16 h-16 rounded-full overflow-hidden border border-gray-700">
+      <img src="data:image/svg+xml;utf8,
+      <svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'>
+      <rect width='60' height='60' fill='%23{{ i }}{{ i }}{{ i }}'/>
+      <text x='30' y='35' text-anchor='middle' fill='%23fff' font-size='12'>User</text>
+      </svg>" alt="Donor {{ i }}">
     </div>
+    {% endfor %}
+    <div class="more-donors flex items-center justify-center text-white text-lg font-bold bg-gray-800 rounded-full">+345</div>
+  </div>
 </section>
 
-<aside class="donate-panel md:block hidden">
-    <h3>Select Donation Amount</h3>
-    <div class="amount-grid">
-        {% for amt in donation_amounts %}
-            <button class="amount-btn{% if forloop.first %} active{% endif %}" data-amount="{{ amt }}">${{ amt }}</button>
-        {% endfor %}
-    </div>
-    <input type="number" class="other-amount" placeholder="Other Amount (USD)" min="1" />
-    <div class="select-wrapper">
-        <label>PAYMENT METHOD</label>
-        <select class="payment-select">
-            <option>💳 Card</option><option>📱 PayPal</option><option>🏦 Bank Transfer</option>
-        </select>
-    </div>
-    <div class="select-wrapper">
-        <label>FREQUENCY</label>
-        <select class="frequency-select">
-            <option>One Time</option><option>Monthly</option><option>Yearly</option>
-        </select>
-    </div>
-    <button class="donate-btn">Donate Now</button>
+<aside class="donate-panel md:block hidden bg-gray-900 p-6 rounded-xl border border-gray-700 max-w-sm mx-auto mb-10">
+  <h3 class="text-xl font-semibold text-white mb-4">Select Donation Amount</h3>
+  <div class="amount-grid flex flex-wrap gap-2 mb-4">
+    {% for amt in donation_amounts %}
+      <button class="amount-btn px-3 py-1 rounded-md border border-gray-600 text-white hover:bg-gray-700 {% if forloop.first %}bg-purple-600 border-purple-500{% endif %}" data-amount="{{ amt }}">${{ amt }}</button>
+    {% endfor %}
+  </div>
+  <input type="number" class="other-amount w-full bg-gray-800 text-white p-2 rounded-md border border-gray-700 mb-4" placeholder="Other Amount (USD)" min="1" />
+  <div class="select-wrapper mb-4">
+    <label class="block text-sm text-gray-400 mb-1">PAYMENT METHOD</label>
+    <select class="payment-select w-full bg-gray-800 text-white p-2 rounded-md border border-gray-700">
+      <option>💳 Card</option><option>📱 PayPal</option><option>🏦 Bank Transfer</option>
+    </select>
+  </div>
+  <div class="select-wrapper mb-4">
+    <label class="block text-sm text-gray-400 mb-1">FREQUENCY</label>
+    <select class="frequency-select w-full bg-gray-800 text-white p-2 rounded-md border border-gray-700">
+      <option>One Time</option><option>Monthly</option><option>Yearly</option>
+    </select>
+  </div>
+  <button class="donate-btn w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition">Donate Now</button>
 </aside>
 {% endblock %}
 
