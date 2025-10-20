@@ -1,94 +1,104 @@
- {% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
-{# Clean, single CSS block (no per-page styles; using global style.css) #}
 {% block extra_css %}
 {{ block.super }}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% endblock %}
 
 {% block content %}
-<main class="container mx-auto px-5 flex-1 py-10">
-  <div class="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-10">
-    <aside class="flex flex-col gap-8">
-      <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
-        <h3 class="text-xl font-semibold text-white mb-5">Show Categories</h3>
-        <div class="flex flex-col gap-3">
-          <a class="flex justify-between items-center p-3 border border-white/10 rounded-lg transition-all hover:bg-white/5 hover:border-white/20" href="{% url 'tabs:tabs_list' %}">
-            <span class="text-white font-medium">Songs</span>
-            <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.songs }}</span>
+<main class="albums-main-container">
+  <div class="albums-content-grid">
+    <aside class="albums-sidebar">
+     <div class="category-section">
+        <h3 class="section-heading">Show Categories</h3>
+        <div class="category-links">
+          <a href="{% url 'tabs:tabs_list' %}" class="category-link">
+            <span class="category-text">Songs</span>
+            <span class="category-count">{{ counts.songs }}</span>
           </a>
-          <a class="flex justify-between items-center p-3 border border-white/10 rounded-lg transition-all hover:bg-white/5 hover:border-white/20" href="{% url 'tabs:albums_list' %}">
-            <span class="text-white font-medium">Albums</span>
-            <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.albums }}</span>
+          <a href="{% url 'tabs:albums_list' %}" class="category-link">
+            <span class="category-text">Albums</span>
+            <span class="category-count">{{ counts.albums }}</span>
           </a>
-          <a class="flex justify-between items-center p-3 border border-white/10 rounded-lg transition-all hover:bg-white/5 hover:border-white/20" href="{% url 'tabs:artists_list' %}">
-            <span class="text-white font-medium">Artists</span>
-            <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.artists }}</span>
+          <a href="{% url 'tabs:artists_list' %}" class="category-link">
+            <span class="category-text">Artists</span>
+            <span class="category-count">{{ counts.artists }}</span>
           </a>
         </div>
       </div>
-      <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
-        <h3 class="text-xl font-semibold text-white mb-5">Filters</h3>
-        <form method="GET" class="space-y-6">
-          <div class="mb-6 last:mb-0">
-            <label class="block text-white font-medium mb-2.5">Name (A - Z)</label>
-            <select name="sort" class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base" onchange="this.form.submit()">
+      <div class="albums-filters-section">
+        <h3 class="albums-section-heading">Filters</h3>
+        <form method="GET" class="albums-filter-form">
+          <div class="albums-filter-group">
+            <label class="albums-filter-label">Name (A - Z)</label>
+            <select name="sort" class="albums-filter-select" onchange="this.form.submit()">
               <option value="A to Z" {% if sort_by == 'A to Z' %}selected{% endif %}>A to Z</option>
               <option value="Z to A" {% if sort_by == 'Z to A' %}selected{% endif %}>Z to A</option>
               <option value="Recently Added" {% if sort_by == 'Recently Added' %}selected{% endif %}>Recently Added</option>
               <option value="Most Popular" {% if sort_by == 'Most Popular' %}selected{% endif %}>Most Popular</option>
             </select>
           </div>
+           <div class="filter-group">
+          <label class="filter-label">Tuning</label>
+          <select id="tuningSelect" class="filter-select">
+            <option value="All Tunings" {% if not tuning_filter or tuning_filter == "All Tunings" %}selected{% endif %}>All Tunings</option>
+            <option value="E Standard" {% if tuning_filter == "E Standard" %}selected{% endif %}>E Standard</option>
+            <option value="Drop D" {% if tuning_filter == "Drop D" %}selected{% endif %}>Drop D</option>
+            <option value="Drop C" {% if tuning_filter == "Drop C" %}selected{% endif %}>Drop C</option>
+            <option value="Drop B" {% if tuning_filter == "Drop B" %}selected{% endif %}>Drop B</option>
+            <option value="DADGAD" {% if tuning_filter == "DADGAD" %}selected{% endif %}>DADGAD</option>
+          </select>
+        </div>
           {% if search_query %}
             <input type="hidden" name="search" value="{{ search_query }}">
           {% endif %}
         </form>
       </div>
     </aside>
-    <section class="tab-section">
-      <div class="tabs-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+    <section class="albums-section">
+      <div class="albums-list-grid">
         {% for album in page_obj %}
-        <div class="tab-card bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl hover:border-primary flex flex-col group">
-          <div class="tab-image relative w-full h-40 md:h-48 overflow-hidden">
-            <img src="{{ album.album_img }}" alt="{{ album.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-            {% if album.is_complete %}<span class="absolute top-2 left-2 bg-green-600/80 text-white text-[10px] font-medium px-2 py-0.5 rounded">Complete</span>{% endif %}
-            {% if album.has_filler %}<span class="absolute top-2 right-2 bg-yellow-600/80 text-white text-[10px] font-medium px-2 py-0.5 rounded">Filler</span>{% endif %}
+        <div class="albums-album-card">
+          <div class="albums-album-image">
+            <img src="{{ album.album_img }}" alt="{{ album.title }}" class="albums-album-img">
+            {% if album.is_complete %}<span class="albums-album-badge albums-album-badge-complete">Complete</span>{% endif %}
+            {% if album.has_filler %}<span class="albums-album-badge albums-album-badge-filler">Filler</span>{% endif %}
           </div>
-          <div class="tab-info p-4 flex flex-col justify-between flex-grow">
-            <div>
-              <h3 class="tab-title text-lg font-semibold text-white mb-1 truncate">
-                <a class="hover:text-primary transition-colors" href="{% url 'tabs:album_detail' artist_slug=album.artist.name_cleaned album_slug=album.title_cleaned %}">{{ album.title }}</a>
+          <div class="albums-album-info">
+            <div class="albums-album-details">
+              <h3 class="albums-album-title">
+                <a class="albums-album-link" href="{% url 'tabs:album_detail' artist_slug=album.artist.name_cleaned album_slug=album.title_cleaned %}">{{ album.title }}</a>
               </h3>
-              <div class="tab-footer flex justify-between items-center text-xs text-gray-400 mb-2 gap-2">
-                <span class="truncate max-w-[120px]">{{ album.artist.name }}</span>
-                <span class="text-[11px] text-gray-500">{{ album.release_year }}</span>
+              <div class="albums-album-artist-year">
+                <span class="albums-album-artist">{{ album.artist.name }}</span>
+                <span class="albums-album-year">{{ album.release_year }}</span>
               </div>
             </div>
-            <div class="tab-footer flex justify-between items-center mt-auto pt-1">
-              <span class="text-gray-400 text-[11px] flex flex-col gap-0.5">
-                <span>{{ album.song_count }} Tab{{ album.tab_count|pluralize }}</span>
-                
-              </span>
-              <span class="bg-[rgba(255,255,255,0.1)] border border-dark-border rounded-md text-white py-1 px-3 text-[11px] font-medium transition-colors duration-300 hover:bg-[rgba(74,144,226,0.2)]" title="Completion status">{% if album.tuning %}<span class="text-[10px] text-" title="Primary tuning">{{ album.tuning }}</span>{% endif %}</span>
+            <div class="albums-album-footer">
+              <span class="albums-album-tab-count">{{ album.song_count }} Tab{{ album.tab_count|pluralize }}</span>
+              {% if album.tuning %}
+              <span class="albums-album-tuning" title="Primary tuning">{{ album.tuning }}</span>
+              {% endif %}
             </div>
           </div>
         </div>
         {% empty %}
-          <p class="text-white col-span-full">No albums found.</p>
+          <p class="albums-empty">No albums found.</p>
         {% endfor %}
       </div>
       {% if page_obj.has_other_pages %}
-      <div class="flex justify-center mt-8 gap-2">
+      <div class="albums-pagination">
         {% if page_obj.has_previous %}
-          <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 text-xs rounded border border-white/10 text-gray-300 hover:bg-white/10">Prev</a>
+          <a href="?page={{ page_obj.previous_page_number }}" class="albums-pagination-btn albums-pagination-prev">Prev</a>
         {% endif %}
-        <span class="px-3 py-1 text-xs rounded bg-white/10 text-white">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        <span class="albums-pagination-current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
         {% if page_obj.has_next %}
-          <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 text-xs rounded border border-white/10 text-gray-300 hover:bg-white/10">Next</a>
+          <a href="?page={{ page_obj.next_page_number }}" class="albums-pagination-btn albums-pagination-next">Next</a>
         {% endif %}
       </div>
       {% endif %}
     </section>
   </div>
 </main>
-{% endblock %} 
+{% endblock %}

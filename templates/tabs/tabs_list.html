@@ -3,46 +3,43 @@
 
 {% block extra_css %}
 {{ block.super }}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% endblock %}
 
 {% block content %}
-<main class="container mx-auto px-5 flex-1 py-10">
-  <div class="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-10">
+<main class="main-container">
+  <div class="content-grid">
 
     <!-- Sidebar -->
-    <aside class="flex flex-col gap-8">
+    <aside class="sidebar">
 
       <!-- Category Section -->
-      <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
-        <h3 class="text-xl font-semibold text-white mb-5">Show Categories</h3>
-        <div class="flex flex-col gap-3">
-          <a href="{% url 'tabs:tabs_list' %}" 
-             class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary">
-            <span class="text-white font-medium">Songs</span>
-            <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.songs }}</span>
+      <div class="category-section">
+        <h3 class="section-heading">Show Categories</h3>
+        <div class="category-links">
+          <a href="{% url 'tabs:tabs_list' %}" class="category-link">
+            <span class="category-text">Songs</span>
+            <span class="category-count">{{ counts.songs }}</span>
           </a>
-          <a href="{% url 'tabs:albums_list' %}" 
-             class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary">
-            <span class="text-white font-medium">Albums</span>
-            <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.albums }}</span>
+          <a href="{% url 'tabs:albums_list' %}" class="category-link">
+            <span class="category-text">Albums</span>
+            <span class="category-count">{{ counts.albums }}</span>
           </a>
-          <a href="{% url 'tabs:artists_list' %}" 
-             class="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-primary/20 hover:border-primary">
-            <span class="text-white font-medium">Artists</span>
-            <span class="bg-white/20 py-1 px-2 rounded-xl text-sm text-gray-300">{{ counts.artists }}</span>
+          <a href="{% url 'tabs:artists_list' %}" class="category-link">
+            <span class="category-text">Artists</span>
+            <span class="category-count">{{ counts.artists }}</span>
           </a>
         </div>
       </div>
 
       <!-- Filters Section -->
-      <div class="bg-primary/15 border border-primary/30 rounded-xl p-6">
-        <h3 class="text-xl font-semibold text-white mb-5">Filters</h3>
+      <div class="filters-section">
+        <h3 class="section-heading">Filters</h3>
 
         <!-- Name -->
-        <div class="mb-6">
-          <label class="block text-white font-medium mb-2.5">Name (A - Z)</label>
-          <select id="sortSelect" 
-                  class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
+        <div class="filter-group">
+          <label class="filter-label">Name (A - Z)</label>
+          <select id="sortSelect" class="filter-select">
             <option value="A to Z" {% if sort_by == "A to Z" %}selected{% endif %}>A to Z</option>
             <option value="Z to A" {% if sort_by == "Z to A" %}selected{% endif %}>Z to A</option>
             <option value="Recently Added" {% if sort_by == "Recently Added" %}selected{% endif %}>Recently Added</option>
@@ -51,10 +48,9 @@
         </div>
 
         <!-- Tuning -->
-        <div class="mb-6">
-          <label class="block text-white font-medium mb-2.5">Tuning</label>
-          <select id="tuningSelect" 
-                  class="w-full py-3 px-4 bg-white/10 border border-white/20 rounded-lg text-white outline-none text-base">
+        <div class="filter-group">
+          <label class="filter-label">Tuning</label>
+          <select id="tuningSelect" class="filter-select">
             <option value="All Tunings" {% if not tuning_filter or tuning_filter == "All Tunings" %}selected{% endif %}>All Tunings</option>
             <option value="E Standard" {% if tuning_filter == "E Standard" %}selected{% endif %}>E Standard</option>
             <option value="Drop D" {% if tuning_filter == "Drop D" %}selected{% endif %}>Drop D</option>
@@ -65,30 +61,29 @@
         </div>
 
         <!-- Difficulty Slider -->
-        <div class="mb-6">
-          <label class="block text-white font-medium mb-2.5">Difficulty</label>
-          <div class="difficulty-slider mt-8 relative w-full select-none">
-            <div class="slider-container relative h-2 bg-gray-700 rounded-full">
-              <div id="activeTrack" 
-                   class="absolute top-0 h-2 bg-primary rounded-full transition-all duration-150"></div>
+        <div class="filter-group">
+          <label class="filter-label">Difficulty</label>
+          <div class="difficulty-slider">
+            <div class="slider-container">
+              <div id="activeTrack" class="slider-active-track"></div>
 
               <!-- Range Inputs -->
               <input id="minRange" type="range" min="1" max="4" value="{{ min_difficulty|default:1 }}" step="1"
-                     class="absolute w-full h-2 opacity-0 cursor-pointer z-30 top-0 left-0">
+                     class="slider-input slider-min">
               <input id="maxRange" type="range" min="1" max="4" value="{{ max_difficulty|default:4 }}" step="1"
-                     class="absolute w-full h-2 opacity-0 cursor-pointer z-20 top-0 left-0">
+                     class="slider-input slider-max">
 
               <!-- Handles (no bubbles) -->
-              <div id="minHandle" class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-40">
-                <div class="handle-dot w-5 h-5 bg-primary rounded-full border-2 border-white shadow-md"></div>
+              <div id="minHandle" class="slider-handle">
+                <div class="handle-dot"></div>
               </div>
 
-              <div id="maxHandle" class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-40">
-                <div class="handle-dot w-5 h-5 bg-primary rounded-full border-2 border-white shadow-md"></div>
+              <div id="maxHandle" class="slider-handle">
+                <div class="handle-dot"></div>
               </div>
             </div>
 
-            <div class="flex justify-between text-gray-400 text-xs mt-4 px-1">
+            <div class="slider-labels">
               <span>1</span>
               <span>2</span>
               <span>3</span>
@@ -101,43 +96,40 @@
     </aside>
 
     <!-- Songs Section -->
-    <section id="songContainer" class="tab-section">
-      <div class="tabs-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+    <section id="songContainer" class="songs-section">
+      <div class="tabs-grid">
         {% for song in page_obj %}
-          <div class="tab-card bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden 
-                      hover:-translate-y-2 hover:shadow-2xl hover:border-primary transition-all duration-300 
-                      cursor-pointer flex flex-col">
-            <div class="relative w-full h-56 overflow-hidden">
-              <img src="{{ song.artist.artist_img }}" alt="{{ song.artist.name }}" 
-                   class="w-full h-full object-cover">
+          <div class="tab-card">
+            <div class="tab-image">
+              <img src="{{ song.album.album_img}}" alt="{{ song.artist.name }}" 
+                   class="tab-img">
             </div>
 
-            <div class="p-4 flex flex-col justify-between flex-grow">
-              <div>
-                <h3 class="text-lg font-semibold text-white mb-1">
+            <div class="tab-content">
+              <div class="tab-info">
+                <h3 class="tab-title">
                   <a href="{% url 'tabs:song_detail' artist_slug=song.artist.name_cleaned album_slug=song.album.title_cleaned song_slug=song.title_cleaned %}" 
-                     class="hover:text-primary transition">
+                     class="tab-link">
                     {{ song.title }}
                   </a>
                 </h3>
 
-                <p class="text-sm text-gray-300">{{ song.artist.name }}</p>
-                <p class="text-sm text-gray-400 italic">
+                <p class="tab-artist">{{ song.artist.name }}</p>
+                <p class="tab-album">
                   {% if song.album %}{{ song.album.title }}{% else %}No Album{% endif %}
                 </p>
               </div>
 
-              <div class="flex justify-between items-center mt-auto border-zinc-800">
-                <span class="text-xs text-gray-500">{{ song.date_added|date:"Y" }}</span>
-                <span class="bg-zinc-800 border border-zinc-700 rounded-md text-white py-1 px-3 text-xs font-medium 
-                             hover:bg-zinc-700 transition">
+              <div class="tab-meta">
+                <span class="tab-year">{{ song.date_added|date:"Y" }}</span>
+                <span class="tab-tuning">
                   {% if song.tuning %}{{ song.tuning }}{% else %}Standard{% endif %}
                 </span>
               </div>
             </div>
           </div>
         {% empty %}
-          <p class="text-white">No songs found.</p>
+          <p class="no-songs">No songs found.</p>
         {% endfor %}
       </div>
     </section>
@@ -159,6 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const sortSelect = document.getElementById("sortSelect");
   const tuningSelect = document.getElementById("tuningSelect");
   const songContainer = document.getElementById("songContainer");
+  const sliderContainer = document.querySelector('.slider-container');
 
   // Initialize with default values
   minRange.value = "{{ min_difficulty|default:1 }}";
@@ -168,28 +161,127 @@ document.addEventListener("DOMContentLoaded", function () {
     let min = parseInt(minRange.value);
     let max = parseInt(maxRange.value);
 
-    // Ensure min ≤ max
+    // Ensure min doesn't exceed max and vice versa
     if (min > max) {
-      [min, max] = [max, min];
-      minRange.value = min;
-      maxRange.value = max;
+      if (minRange === document.activeElement) {
+        maxRange.value = min;
+      } else {
+        minRange.value = max;
+      }
+      min = parseInt(minRange.value);
+      max = parseInt(maxRange.value);
     }
 
     const minPercent = ((min - 1) / 3) * 100;
     const maxPercent = ((max - 1) / 3) * 100;
 
+    // Update visual elements
     activeTrack.style.left = `${minPercent}%`;
     activeTrack.style.width = `${maxPercent - minPercent}%`;
     minHandle.style.left = `${minPercent}%`;
     maxHandle.style.left = `${maxPercent}%`;
 
-    if (min >= max - 1) {
-      minRange.style.zIndex = 5;
-      maxRange.style.zIndex = 10;
-    } else {
-      minRange.style.zIndex = 10;
-      maxRange.style.zIndex = 5;
+    // Z-index management for better handle interaction
+    minRange.style.zIndex = min >= max - 1 ? 5 : 10;
+    maxRange.style.zIndex = min >= max - 1 ? 10 : 5;
+  }
+
+  // Enhanced slider interaction
+  function setupSliderInteraction() {
+    let isDragging = false;
+    let currentSlider = null;
+
+    function handleSliderMove(e) {
+      if (!isDragging) return;
+
+      const rect = sliderContainer.getBoundingClientRect();
+      const x = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+      let percent = ((x - rect.left) / rect.width) * 100;
+      percent = Math.max(0, Math.min(100, percent)); // Clamp between 0-100%
+
+      const value = Math.round(1 + (percent / 100) * 3); // Convert to 1-4 scale
+
+      if (currentSlider === minRange) {
+        minRange.value = value;
+      } else if (currentSlider === maxRange) {
+        maxRange.value = value;
+      }
+
+      updateSlider();
     }
+
+    function handleSliderEnd() {
+      isDragging = false;
+      currentSlider = null;
+      document.removeEventListener('mousemove', handleSliderMove);
+      document.removeEventListener('touchmove', handleSliderMove);
+      document.removeEventListener('mouseup', handleSliderEnd);
+      document.removeEventListener('touchend', handleSliderEnd);
+      
+      // Apply filters when dragging ends
+      applyFilters();
+    }
+
+    // Handle events for both handles
+    [minHandle, maxHandle].forEach((handle, index) => {
+      const slider = index === 0 ? minRange : maxRange;
+
+      // Mouse events
+      handle.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        isDragging = true;
+        currentSlider = slider;
+        document.addEventListener('mousemove', handleSliderMove);
+        document.addEventListener('mouseup', handleSliderEnd);
+      });
+
+      // Touch events for mobile
+      handle.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        isDragging = true;
+        currentSlider = slider;
+        document.addEventListener('touchmove', handleSliderMove, { passive: false });
+        document.addEventListener('touchend', handleSliderEnd);
+      });
+
+      // Click on track to move handles
+      sliderContainer.addEventListener('click', (e) => {
+        const rect = sliderContainer.getBoundingClientRect();
+        const x = e.clientX;
+        const percent = ((x - rect.left) / rect.width) * 100;
+        const value = Math.round(1 + (percent / 100) * 3);
+
+        // Determine which handle to move based on click position
+        const minValue = parseInt(minRange.value);
+        const maxValue = parseInt(maxRange.value);
+        const minPos = ((minValue - 1) / 3) * 100;
+        const maxPos = ((maxValue - 1) / 3) * 100;
+
+        if (Math.abs(percent - minPos) < Math.abs(percent - maxPos)) {
+          // Closer to min handle
+          minRange.value = Math.min(value, maxValue);
+        } else {
+          // Closer to max handle
+          maxRange.value = Math.max(value, minValue);
+        }
+
+        updateSlider();
+        applyFilters();
+      });
+    });
+
+    // Still allow direct range input interaction
+    minRange.addEventListener('input', () => {
+      updateSlider();
+    });
+
+    maxRange.addEventListener('input', () => {
+      updateSlider();
+    });
+
+    // Apply filters when range inputs change (for keyboard users)
+    minRange.addEventListener('change', applyFilters);
+    maxRange.addEventListener('change', applyFilters);
   }
 
   async function applyFilters() {
@@ -204,26 +296,69 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch(`?${params.toString()}`, {
         headers: { "X-Requested-With": "XMLHttpRequest" },
       });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const html = await response.text();
       const parser = new DOMParser();
       const newDoc = parser.parseFromString(html, "text/html");
       const newSongs = newDoc.querySelector("#songContainer");
-      if (newSongs) songContainer.innerHTML = newSongs.innerHTML;
+      
+      if (newSongs) {
+        songContainer.innerHTML = newSongs.innerHTML;
+        
+        // Update URL without page reload
+        const newUrl = `${window.location.pathname}?${params.toString()}`;
+        window.history.pushState({}, '', newUrl);
+      }
     } catch (error) {
       console.error("Filter error:", error);
     }
   }
 
-  // Initialize
-  updateSlider();
+  // Add some CSS for better handle interaction
+  const style = document.createElement('style');
+  style.textContent = `
+    .slider-handle {
+      cursor: grab;
+      transition: left 0.1s ease;
+    }
+    .slider-handle:active {
+      cursor: grabbing;
+    }
+    .handle-dot {
+      transition: transform 0.1s ease;
+    }
+    .slider-handle:hover .handle-dot {
+      transform: scale(1.2);
+    }
+    .slider-container {
+      cursor: pointer;
+    }
+  `;
+  document.head.appendChild(style);
 
-  // Update events
-  minRange.addEventListener("input", updateSlider);
-  maxRange.addEventListener("input", updateSlider);
-  minRange.addEventListener("change", applyFilters);
-  maxRange.addEventListener("change", applyFilters);
+  // Initialize everything
+  updateSlider();
+  setupSliderInteraction();
+
+  // Other filter events
   sortSelect.addEventListener("change", applyFilters);
   tuningSelect.addEventListener("change", applyFilters);
+
+  // Handle browser back/forward buttons
+  window.addEventListener('popstate', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    minRange.value = urlParams.get('min_difficulty') || 1;
+    maxRange.value = urlParams.get('max_difficulty') || 4;
+    sortSelect.value = urlParams.get('sort') || 'A to Z';
+    tuningSelect.value = urlParams.get('tuning') || 'All Tunings';
+    
+    updateSlider();
+    applyFilters();
+  });
 });
 </script>
 {% endblock %}
